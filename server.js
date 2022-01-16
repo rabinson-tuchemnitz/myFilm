@@ -1,11 +1,14 @@
+require('dotenv').config()
 const express = require('express');
 
 // express app
 const app = express();
 
+// connect database
+const connect = "postgres://"
+
 // register view engine
 app.set('view engine', 'ejs');
-
 
 // listen for request
 app.listen(8888);
