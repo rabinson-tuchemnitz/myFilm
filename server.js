@@ -11,14 +11,15 @@ const connect = "postgres://"
 app.set('view engine', 'ejs');
 
 // listen for request
-app.listen(8888);
+app.listen(process.env.APP_PORT);
 
-
+app.use(express.static(__dirname + '/public'));
 /**
  * ---------- Routes of the Web Server ----------
  */
 
 app.get('/', function(req, res) {
+    
     res.render('home', { title: 'Home'});
 });
 
@@ -29,7 +30,6 @@ app.get('/films', function(req, res) {
 app.get('/crews', function(req, res) {
     res.render('crew/index.ejs', { title: 'Crews'});
 });
-
 
 app.use((req, res) => {
     res.status(404).render('404', { title: '404'});
