@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express');
+const expressLayouts = require('express-ejs-layouts')
 
 // express app
 const app = express();
@@ -7,33 +8,28 @@ const app = express();
 // connect database
 const connect = "postgres://"
 
-// register view engine
+// Set Templating enging
+app.use(expressLayouts)
 app.set('view engine', 'ejs');
 
 // listen for request
 app.listen(process.env.APP_PORT);
 
 app.use(express.static(__dirname + '/public'));
-/**
+
+/*
  * ---------- Routes of the Web Server ----------
  */
 
-app.get('/', function(req, res) {
-    
-    res.render('home', { title: 'Home'});
-});
 
-app.get('/films', function(req, res) {
-    res.render('film/index.ejs', { title: 'Films'});
-});
+const filmRoutes = require('./routes/filmRoutes');
+app.use(filmRoutes);
 
-app.get('/crews', function(req, res) {
-    res.render('crew/index.ejs', { title: 'Crews'});
-});
+const crewRoutes = require('./routes/crewRoutes');
+app.use(crewRoutes);
 
-app.use((req, res) => {
-    res.status(404).render('404', { title: '404'});
-})
+const homeRoutes = require('./routes/homeRoutes');
+app.use(homeRoutes);
 
 /**
  * ---------- Routes of the Web Server ----------

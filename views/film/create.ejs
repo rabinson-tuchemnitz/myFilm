@@ -1,0 +1,65 @@
+<div class="container-fluid">
+  <div class="row">
+    <%- include('../partials/sidebar.ejs') %>
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <div class="container">
+          <h1 class="h2"><%= title %></h1>
+          <div class="col-8">
+            <form>
+              <!-- 2 column grid layout with text inputs for the first and last names -->
+              <div class="row mb-4">
+                <div class="col">
+                  <div class="form-outline">
+                    <label class="form-label" for="form3Example1">Name</label>
+                    <input type="text" id="name" class="form-control" />
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-outline">
+                    <label class="form-label" for="form3Example2">Release Date</label>
+                    <input type="text" id="release_date" class="form-control" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Email input -->
+              <div class="form-outline mb-4">
+                <label class="form-label" for="genre">Genre</label>
+                <select class="form-control" id="genre" multiple>
+                      <option>Comedy</option>
+                      <option>Action</option>
+                      <option>Thriller</option>
+                      <option>Horror</option>
+                      <option>Love</option>
+                    </select>
+              </div>
+
+              <!-- Password input -->
+              <div class="form-outline mb-4">
+                  <label class="form-label" for="crew">Film Related person</label>
+                <select class="form-control" id="genre" multiple>
+                      <option>John Cena (Producer)</option>
+                      <option>The Rock (Director)</option>
+                      <option>Edge (Actor)</option>
+                      <option>Eve (Actress)</option>
+                      <option>Triple-H (Actor)</option>
+                    </select>
+              </div>
+
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea class="form-control" id="description" rows="4"></textarea>
+                </div>
+
+              <!-- Submit button -->
+              <button type="submit" class="btn btn-primary btn-block mb-4">Sign up</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

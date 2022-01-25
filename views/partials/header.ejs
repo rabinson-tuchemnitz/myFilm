@@ -1,5 +1,4 @@
-<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Film Fest</a>
+<!-- <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
 <button
   class="navbar-toggler position-absolute d-md-none collapsed"
   type="button"
@@ -12,9 +11,42 @@
   <span class="navbar-toggler-icon"></span>
 </button>
 
+<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Film Fest</a>
+
+
 <div class="navbar-nav">
   <div class="nav-item text-nowrap">
     <a class="nav-link px-3" href="#">Sign out</a>
   </div>
 </div>
+</header> -->
+<header class="header-container">
+	<div class="container">
+		<nav class="header-nav-container">
+        <div class="logo-box d-flex align-items-center">
+        <div class="header_toggle">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+          </svg>
+        </div>
+				<div class="navbar-logo">
+          <a href="#"><img class="logo" src="img/logo/myFilm-logo.png" alt="" width="119" height="58"></a>
+        </div>
+        </div>
+        <!-- <div class="header-search">
+          <form class="d-flex" action="#">
+            <div class="input-group">
+              <input type="text" class="form-control form-control-sm" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
+              <span class="input-group-text" id="basic-addon2"><a href="#" class="btn btn-light btn-sm">Search</a></span>
+            </div>
+          </form>
+        </div> -->
+        <div class="navbar-auth">
+          <button type="button" data-toggle="modal" data-target="#loginModal" onclick="openLoginModal()" class="btn btn-secondary">Login</button>
+          <a href="#" data-toggle="modal" data-target="#registerModal" onclick="openRegisterModal()"  class="btn btn-primary">Signup</a>
+        </div>
+		
+	    </nav>
+	</div>
 </header>
+
