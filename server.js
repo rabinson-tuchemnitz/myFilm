@@ -24,9 +24,11 @@ app.use(function (req, res, next) {
     res.locals = {
       loggedIn: req.session.loggedIn,
       userType: req.session.userType,
-      userName: req.session.userName
+      userName: req.session.userName,
+      success: req.session.success,
+      message: req.session.message
     };
-    
+
     next();
  });
 

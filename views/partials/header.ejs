@@ -22,7 +22,9 @@
         <div class="navbar-auth">
           <% if(typeof loggedIn != 'undefined' && loggedIn){ %>
               <a href="#"><%- userName %></a>
-              <button class="btn btn-secondary">Logout</button>
+              <form method="POST" action="/logout">
+                <button type="submit" class="btn btn-secondary">Logout</button>
+              </form>
           <% } else{ %>  
               <button type="button" data-toggle="modal" data-target="#loginModal" onclick="openLoginModal()" class="btn btn-secondary">Login</button>
               <a href="#" data-toggle="modal" data-target="#registerModal" onclick="openRegisterModal()"  class="btn btn-primary">Signup</a>

@@ -16,17 +16,16 @@ const register_user = async (req, res) => {
             "SELECT add_user($1, $2, $3)", [name, email, password]
         );
 
-        res.render('home.ejs', {
-            title: 'Home',
-            success: true,
-            message: "User registered successfully"
-        })
+        req.session.success = true;
+        req.session.message = "User registered successfully"
+        
+        res.redirect('/');
+
     } catch (err) {
-        res.render('home.ejs', {
-            title : 'Home',
-            success: false,
-            message: err.message
-        });
+        req.session.success = false;
+        req.session.message = "Failed to register user."
+
+        res.redirect('/');
     }
 }
 
@@ -39,26 +38,39 @@ const login_user = async (req, res) => {
     tableResults = queryResult.rows;
     
     if (tableResults.length == 0) {
-        res.render('home.ejs',  {
-            title: 'Home',
-            success: false,
-            message: 'Invalid credentials'
-        })
+        req.session.success = false;
+        req.session.message = "Invalid credentials."
+        res.redirect('/');
+
     } else  {
         req.session.loggedIn = true;
         req.session.userType = tableResults[0].user_role;
         req.session.userName = tableResults[0].name;
 
-        res.render('home.ejs', {
-            title : "Home"
-        })
+        req.session.success = true;
+        req.session.message = "User logged in successfully"
+        res.redirect('/');
+
     }
 }
 
 const logout = async (req, res) => {
-    session = req.session;
-    console.log(session.userid);
-    console.log('logout')
+    try {
+        req.session.loggedIn = false;
+        req.session.userType = null;
+        req.session.userName = null;
+
+        req.session.success = true;
+        req.session.message = "Logged out successfully"
+
+        res.redirect('/');
+    } catch (err) {
+        req.session.success = false;
+        req.session.message = "Failed to logout."
+
+        res.redirect('/');  
+    }
+
 }
 
 module.exports = {
