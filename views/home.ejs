@@ -5,6 +5,18 @@
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
       >
         <div class="container">
+          <% if (typeof success != 'undefined') { %>
+            <% if(success){ %>
+              <div class="alert alert-success" role="alert">
+                <%= message %>
+              </div>
+            <% } else{ %>  
+              <div class="alert alert-danger" role="alert">
+                <%= message %>
+              </div>
+           <% } %>
+          <% } %>
+         
           <h1 class="h2"><%= title %></h1>
            Welcome to myFilm.
         </div>

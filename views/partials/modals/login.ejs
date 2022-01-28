@@ -7,35 +7,37 @@
   aria-hidden="true"
 >
   <div class="modal-dialog " role="document">
-    <div class="modal-content bg-dark">
-      <form>
+    <div class="modal-content">
+      <form method="POST" action="/login">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Login</h5>
         </div>
         <div class="modal-body p-3">
           <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
+            <label for="email">Email address</label>
             <input
               type="email"
+              name="email"
               class="form-control"
-              id="exampleInputEmail1"
+              id="email"
               aria-describedby="emailHelp"
               placeholder="Enter email"
             />
           </div>
           <br >
           <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
+            <label for="password">Password</label>
             <input
               type="password"
+              name="password"
               class="form-control"
-              id="exampleInputPassword1"
+              id="password"
               placeholder="Password"
             />
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Login</button>
+          <button type="submit" class="btn btn-primary">Login</button>
         </div>
       </form>
     </div>

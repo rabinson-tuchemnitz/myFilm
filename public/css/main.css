@@ -8,28 +8,12 @@
   --header-height: 80px;
 }
 
-body {
-  background-color: var(--secondary-lighter-color);
-  color: white !important;
-}
-
-input {
-  background-color: var(--secondary-darker-color) !important;
-  color: white !important;
-}
 
 btn {
   outline:none !important;
   border: none !important;
 }
 
-.bg-dark {
-  background-color: var(--secondary-darker-color) ;
-  color: var(--white-color)
-}
-.border-white {
-  border: solid .5px var(--white-color)
-}
 
 .btn-primary {
   background-color: #F62B01 !important;
@@ -47,6 +31,7 @@ btn {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: var(--white-color);
 }
 
 .sidebar {
@@ -74,6 +59,8 @@ btn {
   padding: 2px;
   font-size: 2rem;
 }
+
+
 
 .nav_link {
   color: var(--white-color)
@@ -127,7 +114,6 @@ btn {
 .movie-item-style-2 .mv-item-infor h6 a {
   font-family: 'Dosis', sans-serif;
   font-size: 14px;
-  color: #ffffff;
   font-weight: bold;
   text-transform: uppercase;
 }
@@ -152,7 +138,6 @@ btn {
   margin-right: 5px;
 }
 .movie-item-style-2 .mv-item-infor .rate span {
-  color: #ffffff;
   font-size: 16px;
   font-weight: 400;
 }
@@ -198,7 +183,6 @@ btn {
 .ceb-item-style-2 h2 a {
   font-family: 'Dosis', sans-serif;
   font-size: 18px;
-  color: #ffffff;
   font-weight: 700;
   text-transform: none;
 }

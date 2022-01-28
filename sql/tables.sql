@@ -29,17 +29,20 @@ CREATE TABLE IF NOT EXISTS persons(
 );
 
 -- Create users table
-
+CREATE TYPE user_type AS ENUM ('admin', 'customer')
 CREATE TABLE IF NOT EXISTS users(
 	user_id		SERIAL 		PRIMARY KEY,
 	name 		VARCHAR(50) NOT NULL,
 	email 		VARCHAR(30) NOT NULL,
 	password	TEXT 		NOT NULL,
+	type 		user_type   DEFAULT 'customer',
 	created_at 	TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
 	CONSTRAINT valid_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'),
-	CONSTRAINT min_password_length CHECK (char_length(password) > 8)
+	CONSTRAINT min_password_length CHECK (char_length(password) > 5),
+	UNIQUE (email)
 );
+
 
 -- Create film_persons table to store the person related to the film
 

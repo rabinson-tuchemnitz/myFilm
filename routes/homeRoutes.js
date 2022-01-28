@@ -1,8 +1,11 @@
 const express = require('express');
-const filmController = require('../controllers/HomeController.js');
+const homeController = require('../controllers/HomeController.js');
 
 const router = express.Router();
 
-router.get('/', filmController.get_home);
+router.get('/', homeController.get_home);
+router.post('/register', homeController.register_user);
+router.post('/login', homeController.login_user);
+router.post('/logout', homeController.logout);
 
 module.exports = router;

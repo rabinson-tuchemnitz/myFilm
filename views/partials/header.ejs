@@ -1,25 +1,3 @@
-<!-- <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-<button
-  class="navbar-toggler position-absolute d-md-none collapsed"
-  type="button"
-  data-bs-toggle="collapse"
-  data-bs-target="#sidebarMenu"
-  aria-controls="sidebarMenu"
-  aria-expanded="false"
-  aria-label="Toggle navigation"
->
-  <span class="navbar-toggler-icon"></span>
-</button>
-
-<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Film Fest</a>
-
-
-<div class="navbar-nav">
-  <div class="nav-item text-nowrap">
-    <a class="nav-link px-3" href="#">Sign out</a>
-  </div>
-</div>
-</header> -->
 <header class="header-container">
 	<div class="container">
 		<nav class="header-nav-container">
@@ -30,7 +8,7 @@
           </svg>
         </div>
 				<div class="navbar-logo">
-          <a href="#"><img class="logo" src="img/logo/myFilm-logo.png" alt="" width="119" height="58"></a>
+          <a href="#"><img class="logo" src="/img/logo/myFilm-logo.png" alt="" width="119" height="58"></a>
         </div>
         </div>
         <!-- <div class="header-search">
@@ -42,10 +20,14 @@
           </form>
         </div> -->
         <div class="navbar-auth">
-          <button type="button" data-toggle="modal" data-target="#loginModal" onclick="openLoginModal()" class="btn btn-secondary">Login</button>
-          <a href="#" data-toggle="modal" data-target="#registerModal" onclick="openRegisterModal()"  class="btn btn-primary">Signup</a>
-        </div>
-		
+          <% if(typeof loggedIn != 'undefined' && loggedIn){ %>
+              <a href="#"><%- userName %></a>
+              <button class="btn btn-secondary">Logout</button>
+          <% } else{ %>  
+              <button type="button" data-toggle="modal" data-target="#loginModal" onclick="openLoginModal()" class="btn btn-secondary">Login</button>
+              <a href="#" data-toggle="modal" data-target="#registerModal" onclick="openRegisterModal()"  class="btn btn-primary">Signup</a>
+         <% } %>
+        </div>		
 	    </nav>
 	</div>
 </header>

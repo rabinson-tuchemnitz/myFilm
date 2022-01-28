@@ -8,7 +8,7 @@
 >
   <div class="modal-dialog " role="document">
     <div class="modal-content bg-dark">
-      <form>
+      <form method="POST" action="/register">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Register</h5>
         </div>
@@ -19,6 +19,7 @@
                   type="name"
                   class="form-control"
                   id="name"
+                  name="name"
                   placeholder="Enter name"
                 />
               </div>
@@ -29,6 +30,7 @@
               type="email"
               class="form-control"
               id="email"
+              name="email"
               aria-describedby="emailHelp"
               placeholder="Enter email"
             />
@@ -40,12 +42,13 @@
               type="password"
               class="form-control"
               id="password"
+              name="password"
               placeholder="Password"
             />
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Login</button>
+          <button type="submit" class="btn btn-primary">Login</button>
         </div>
       </form>
     </div>
