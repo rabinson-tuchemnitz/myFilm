@@ -12,4 +12,5 @@ $(document).ready(function() {
     $('.movie-crew-select').select2();
     $('.series-genre-select').select2();
     $('.series-crew-select').select2();
+    $('.person-role-select').select2();
 });
