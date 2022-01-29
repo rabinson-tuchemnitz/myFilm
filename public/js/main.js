@@ -8,14 +8,8 @@ function openRegisterModal() {
 
 // In your Javascript (external .js resource or <script> tag)
 $(document).ready(function() {
-    $('.genre-select').select2();
-    $('.crew-select').select2();
-
-    $('#film_type').on('change', function() {
-        if($(this).val == "series") {
-            $('#subordinate').prop('disabled', 'disabled')
-        } else {
-            $('#subordinate').prop('disabled', false)
-        }
-    })
+    $('.movie-genre-select').select2();
+    $('.movie-crew-select').select2();
+    $('.series-genre-select').select2();
+    $('.series-crew-select').select2();
 });

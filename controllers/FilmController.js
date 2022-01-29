@@ -5,10 +5,11 @@ const get_film_list = (req, res) => {
 const create_film = (req, res) => {
     res.render('film/create.ejs', {title: 'Create Film'});
 }
-//
-// const store_film = (req, res) => {
-//     return 'store film';
-// }
+
+const store_film = (req, res) => {
+    console.log(req.body)
+    return 'store film';
+}
 //
 // const show_film = (req, res) => {
 //     return 'show film';
@@ -33,7 +34,7 @@ const create_film = (req, res) => {
 module.exports = {
     get_film_list,
     create_film,
-//     store_film,
+    store_film,
 //     show_film,
 //     edit_film,
 //     update_film,

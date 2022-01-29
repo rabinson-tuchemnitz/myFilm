@@ -73,6 +73,10 @@ btn {
   color: #aaa;
 }
 
+.form-container {
+  padding: 1rem;
+}
+
 .movie-item-style-2 {
   display: -webkit-flex;
   display: -moz-box;
