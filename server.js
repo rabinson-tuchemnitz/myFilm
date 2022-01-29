@@ -39,8 +39,8 @@ app.use(function (req, res, next) {
 const filmRoutes = require('./routes/filmRoutes');
 app.use(filmRoutes);
 
-const crewRoutes = require('./routes/crewRoutes');
-app.use(crewRoutes);
+const personRoutes = require('./routes/personRoutes');
+app.use(personRoutes);
 
 const homeRoutes = require('./routes/homeRoutes');
 app.use(homeRoutes);

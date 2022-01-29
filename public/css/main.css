@@ -14,6 +14,11 @@
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(233, 102, 139, 0.6);
 }  
 
+a {
+  text-decoration: none;
+  color: #abb7c4;
+}
+
 btn {
   outline:none !important;
   border: none !important;
@@ -75,6 +80,18 @@ btn {
 
 .form-container {
   padding: 1rem;
+}
+
+.nav-tabs .nav-link.active{
+  color: var(--primary-color);
+}
+
+.nav-link {
+  color: var(--secondary-lighter-color);
+}
+
+.form-check-input:checked {
+  background-color: var(--primary-color);
 }
 
 .movie-item-style-2 {
@@ -183,7 +200,6 @@ btn {
   }
 }
 .ceb-item-style-2 .ceb-infor {
-  background-color: var(--secondary-lighter-color);
   padding: 10px 20px;
   width: 100%;
 }
@@ -202,4 +218,110 @@ btn {
 }
 .ceb-item-style-2:hover h2 a {
   color: #F62B01;
+}
+
+.movie-item-style-1 {
+  display: flex;
+  flex-direction: column;
+  align-items: inherit;
+  width: 200px;
+  position: relative;
+  margin-right: 23px;
+  border-radius: 5px;
+  background-color: #F7F7F7;
+}
+.movie-item-style-1 img {
+  margin-bottom: 10px;
+  height: 100%;
+  width: 100%;
+}
+.movie-item-style-1 .hvr-inner {
+  position: absolute;
+  top: 0;
+  background-color: #dd003f;
+  padding: 8px 15px;
+  text-align: center;
+  margin-left: 30px;
+  margin-top: 110px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  cursor: pointer;
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  -webkit-opacity: 0;
+  opacity: 0;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+  filter: alpha(opacity=0);
+  -webkit-transition: all 0.5s ease-out;
+  -moz-transition: all 0.5s ease-out;
+  -o-transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;
+}
+@media (max-width: 991px) {
+  .movie-item-style-1 .hvr-inner {
+    margin-left: 0;
+  }
+}
+.movie-item-style-1 .hvr-inner a {
+  font-family: 'Dosis', sans-serif;
+  font-size: 14px;
+  color: #abb7c4;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+.movie-item-style-1 .hvr-inner a i {
+  margin-right: 5px;
+}
+.movie-item-style-1:hover img {
+  -moz-opacity: 0.5;
+  -khtml-opacity: 0.5;
+  -webkit-opacity: 0.5;
+  opacity: 0.5;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50);
+  filter: alpha(opacity=50);
+}
+.movie-item-style-1:hover .hvr-inner {
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  -webkit-opacity: 1;
+  opacity: 1;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=100);
+  filter: alpha(opacity=100);
+}
+.movie-item-style-1:hover h6 a {
+  color: #dcf836;
+}
+@media (max-width: 767px) {
+  .movie-item-style-1 {
+    margin-left: 15px;
+    max-width: 170px;
+  }
+}
+
+.movie-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+.movie-item-info {
+  padding: 10px;
+  text-align: center;
+}
+
+.movie-item-info > a {
+  font-family: 'Dosis', sans-serif;
+  font-size: 18px;
+  color: #abb7c4;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.movie-item-info > a:hover {
+  color: var(--primary-color)
+}
+
+.movie-item-info > p {
+  color: var(--secondary-lighter-color)
 }
