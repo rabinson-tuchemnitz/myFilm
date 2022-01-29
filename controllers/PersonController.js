@@ -1,14 +1,14 @@
-const get_crew_list = (req, res) => {
-    res.render('crew/index.ejs', {title: 'Crews'});
+const get_person_list = (req, res) => {
+    res.render('person/index.ejs', {title: 'Persons'});
 }
 
-const create_crew = (req, res) => {
-    res.render('crew/create.ejs');
+const create_person = (req, res) => {
+    res.render('person/create.ejs');
 }
 
-const store_crew = (req, res) => {
+const store_person = (req, res) => {
     console.log(req.body);
-    return 'store crew';
+    return 'store person';
 }
 //
 // const show_crew = (req, res) => {
@@ -32,9 +32,9 @@ const store_crew = (req, res) => {
 // }
 
 module.exports = {
-    get_crew_list,
-    create_crew,
-    store_crew,
+    get_person_list,
+    create_person,
+    store_person,
     // edit_crew,
     // update_crew,
     // delete_crew,
