@@ -10,10 +10,10 @@ const get_home = (req, res) => {
 
 const register_user = async (req, res) => {
     try {
-        const { name, email, password, type } = req.body;
+        const { name, email, password, user_role } = req.body;
 
         await pool.query(
-            "SELECT add_user($1, $2, $3)", [name, email, password]
+            "SELECT add_user($1, $2, $3, $4)", [name, email, password, user_role]
         );
 
         req.session.success = true;
@@ -23,7 +23,7 @@ const register_user = async (req, res) => {
 
     } catch (err) {
         req.session.success = false;
-        req.session.message = "Failed to register user."
+        req.session.message = "Failed to register user. \n [" + err.message + "]"
 
         res.redirect('/');
     }
@@ -31,27 +31,34 @@ const register_user = async (req, res) => {
 
 const login_user = async (req, res) => {
 
-    queryResult = await pool.query(
-        "SELECT * FROM get_user_from_credentials($1, $2)", [req.body.email, req.body.password]
-    );
-    
-    tableResults = queryResult.rows;
-    
-    if (tableResults.length == 0) {
-        req.session.success = false;
-        req.session.message = "Invalid credentials."
-        res.redirect('/');
+   try {
+        queryResult = await pool.query(
+            "SELECT * FROM get_user_from_credentials($1, $2)", [req.body.email, req.body.password]
+        );
+        
+        tableResults = queryResult.rows;
+        
+        if (tableResults.length == 0) {
+            req.session.success = false;
+            req.session.message = "Invalid credentials."
+            res.redirect('/');
 
-    } else  {
-        req.session.loggedIn = true;
-        req.session.userType = tableResults[0].user_role;
-        req.session.userName = tableResults[0].name;
+        } else  {
+            req.session.loggedIn = true;
+            req.session.userType = tableResults[0].user_role;
+            req.session.userName = tableResults[0].name;
 
-        req.session.success = true;
-        req.session.message = "User logged in successfully"
-        res.redirect('/');
+            req.session.success = true;
+            req.session.message = "User logged in successfully"
+            res.redirect('/');
 
-    }
+        }
+   } catch (err) {
+       req.session.success = false;
+       req.session.message = "Failed to login.\n [" + err.message + "]"
+
+       res.redirect('/');
+   }
 }
 
 const logout = async (req, res) => {
@@ -66,7 +73,7 @@ const logout = async (req, res) => {
         res.redirect('/');
     } catch (err) {
         req.session.success = false;
-        req.session.message = "Failed to logout."
+        req.session.message = "Failed to logout.\n [" + err.message + "]"
 
         res.redirect('/');  
     }

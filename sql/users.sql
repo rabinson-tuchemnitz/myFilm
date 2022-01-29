@@ -14,24 +14,26 @@ END;
 $$ LANGUAGE plpgsql;
 
 -----------------------------------------------------
- CREATE OR REPLACE FUNCTION get_user_from_credentials(i_email TEXT, i_pass TEXT)
- RETURNS TABLE (user_id INTEGER, email VARCHAR, name VARCHAR, user_role user_type)
- AS $$
- BEGIN
- 	RETURN QUERY SELECT users.user_id, users.email, users.name, users.type FROM users
- 	WHERE users.email = i_email AND users.password = i_pass;
- END;
- $$ LANGUAGE plpgsql;
+CREATE OR REPLACE FUNCTION add_user(i_name TEXT, i_email TEXT, i_pass TEXT, i_type TEXT)
+RETURNS VOID
+AS $$
+BEGIN 
+   INSERT INTO users (name, email, password, type) VALUES (i_name, i_email, i_pass, i_type::user_type);
+END;
+$$ LANGUAGE plpgsql;
+
 
 ------------------------------------------------------------------------
 
-CREATE OR REPLACE FUNCTION register(i_name TEXT, i_email TEXT, i_pass TEXT, i_type TEXT)
+
+CREATE OR REPLACE FUNCTION add_user(i_name TEXT, i_email TEXT, i_pass TEXT, i_type user_type)
 RETURNS VOID
 AS $$
 BEGIN 
    INSERT INTO users (name, email, password, type) VALUES (i_name, i_email, i_pass, i_type);
 END;
 $$ LANGUAGE plpgsql;
+
 
 ====>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>===============
 
