@@ -1,6 +1,6 @@
 
 :root {
-  --primary-color: '#F62B01';
+  --primary-color: #F62B01;
   --secondary-color: #202020;
   --secondary-darker-color: #121212;
   --secondary-lighter-color: #212121;
@@ -8,6 +8,11 @@
   --header-height: 80px;
 }
 
+.form-control:focus {
+  border-color: var(--primary-color);
+  outline: 0;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(233, 102, 139, 0.6);
+}  
 
 btn {
   outline:none !important;
@@ -59,8 +64,6 @@ btn {
   padding: 2px;
   font-size: 2rem;
 }
-
-
 
 .nav_link {
   color: var(--white-color)
