@@ -1,7 +1,8 @@
 
 :root {
+  --bg-color: #FBFBFD;
   --primary-color: #F62B01;
-  --secondary-color: #202020;
+  --secondary-color: #333333;
   --secondary-darker-color: #121212;
   --secondary-lighter-color: #212121;
   --white-color: #ffffff;
@@ -24,16 +25,19 @@ btn {
   border: none !important;
 }
 
+main {
+  min-height: calc(100vh - 124px);
+  background-color: var(--bg-color);
+}
 
 .btn-primary {
   background-color: #F62B01 !important;
 }
 
 .header-container{
-  background-color: #202020;
+  background-color: var(--secondary-color);
   min-height: var(--header-height);
   color: var(--white-color);
-  border: solid .5px var(--white-color)
 }
 
 .header-nav-container {
@@ -52,14 +56,13 @@ btn {
 
 .sidebar {
   position: fixed;
-  top: var(--header-height);
+  top: 50vh;
   left: 0;
-  height: 60vh;
+  transform: translateY(-50%);
+  height: 40vh;
   background-color: var(--secondary-color);
   padding: .5rem 1rem 0 0;
   transition: .5s;
-  width: 68px;
-  border: solid .5px var(--white-color)
 }
 
 .sidebar > nav {
@@ -82,6 +85,11 @@ btn {
 }
 .nav_link:hover {
   color: #aaa;
+}
+
+.footer-wrapper {
+  background-color: var(--secondary-color);
+  padding: 10px;
 }
 
 .form-container {
@@ -338,4 +346,18 @@ btn {
   border: none;
   cursor: pointer;
   transition: all 0.5s
+}
+
+.film-detail-wrapper {
+  background-color:#F5F5F7;
+  padding: 20px;
+}
+
+.film-image-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-sidelist {
+  overflow-x: scroll;
 }
