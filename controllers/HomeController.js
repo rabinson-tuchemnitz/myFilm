@@ -1,5 +1,5 @@
 const session = require('express-session');
-const userModel = require('../models/users');
+const userModel = require('../models/user');
 
 const get_home = (req, res) => {
   res.render('home.ejs', {
