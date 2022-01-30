@@ -1,36 +1,169 @@
-<div class="container-fluid">
-    <div class="row">
-      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div
-          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-        >
-          <div class="container">
-              <div class="film-container">
-                  <div class="film-image">
-                      <img src="img/movies/mv1.jpg" alt="Movie image">
-                  </div>
-                  <div class="film-detail">
-                    <div class="film-detail__header">
-                        <p class="movie-title"><%= name %> <span class="movie-year"><%= release_year %> </span></p>
-                        
-                        <div class="movie-rate">
-                            <div class="rate">
-                                <i class="ion-android-star"></i>
-                                <p><span><%= rating %></span> /10<br>
-                                    <span class="rv">56 Reviews</span>
-                                </p>
-                            </div>
-                            <div class="rate-star">
-                                <p>Rate This Movie:  </p>
-                            </div>
-                        </div>
-                    </div>
-                  </div>
-              </div>
-          </div>
+<div class="container p-5">
+  <div class="film-detail-wrapper d-flex">
+    <div class="film-image-container">
+      <img src="/img/movies/mv1.jpg" />
+      <button class="btn btn-primary mt-2">Watch</button>
+    </div>
+    <div class="mv-item-infor p-4">
+      <div class="d-flex justify-content-between">
+        <h3>
+          <a href="#">oblivion <span>(2012)</span></a>
+        </h3>
+        <div class="action-group">
+          <button class="btn btn-outline-secondary">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-pencil-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"
+              />
+            </svg>
+          </button>
+          <button class="btn btn-outline-danger">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-trash-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
+              />
+            </svg>
+          </button>
         </div>
-      </main>
+      </div>
+
+      <p class="rate">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-star-fill"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+          />
+        </svg>
+        <span>8.1</span> /10
+        <a href="#" style="text-decoration: underline">Rate this movie</a>
+      </p>
+      <p>
+        Stars: <a href="#">Robert Downey Jr.,</a> <a href="#">Chris Evans,</a>
+        <a href="#"> Chris Hemsworth</a>
+      </p>
+      <p class="describe">
+        Earth's asdfasdfasdfasdf sda fasdfasdfk kasdjkf ;lasdf ;lasdkjf;laskdjf
+        ;lasdkjf ;laskdjf ;lasdkjf ;alsdkfj; aldkfj;a lsdkfj;a lsdkfj ;asldkfj
+        ;asldkfj ;asldkfj ;alsdkfjl;akdfj;asldfjjjla;sdkfasd;kwoperpoweiras
+        heroes must come together and learn to fight as a team if they are to
+        stop the mischievous Loki and his alien army from enslaving humanity...
+      </p>
     </div>
   </div>
-  
-     
+  <br />
+  <br />
+  <hr />
+  <div class="season-list">
+    <div class="d-flex justify-content-between align-items-center">
+      <h1 class="h2">Seasons</h1>
+      <% if(typeof loggedIn != 'undefined' && loggedIn && userType == "admin"){
+      %>
+      <a href="/season" class="btn btn-primary">Add Season</a>
+      <% } %>
+    </div>
+    <div class="movie-sidelist d-flex">
+      <div class="movie-item-style-2 movie-item-style-1">
+        <img src="/img/movies/mv2.jpg" alt="" />
+        <div class="movie-item-info">
+          <a href="#">Movie Name</a>
+          <p>Ratings <span>8.1</span>/ 10</p>
+        </div>
+      </div>
+      <div class="movie-item-style-2 movie-item-style-1">
+        <img src="/img/movies/mv2.jpg" alt="" />
+        <div class="movie-item-info">
+          <a href="#">Movie Name</a>
+          <p>Ratings <span>8.1</span>/ 10</p>
+        </div>
+      </div>
+      <div class="movie-item-style-2 movie-item-style-1">
+        <img src="/img/movies/mv2.jpg" alt="" />
+        <div class="movie-item-info">
+          <a href="#">Movie Name</a>
+          <p>Ratings <span>8.1</span>/ 10</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <br />
+  <hr />
+  <div class="episode-list">
+    <div class="d-flex justify-content-between align-items-center">
+      <h1 class="h2">Episodes</h1>
+      <% if(typeof loggedIn != 'undefined' && loggedIn && userType == "admin"){
+      %>
+      <a href="/season" class="btn btn-primary">Add Episodes</a>
+      <% } %>
+    </div>
+    <div class="movie-sidelist d-flex">
+      <div class="movie-item-style-2 movie-item-style-1">
+        <img src="/img/movies/mv2.jpg" alt="" />
+        <div class="movie-item-info">
+          <a href="#">Movie Name</a>
+          <p>Ratings <span>8.1</span>/ 10</p>
+        </div>
+      </div>
+      <div class="movie-item-style-2 movie-item-style-1">
+        <img src="/img/movies/mv2.jpg" alt="" />
+        <div class="movie-item-info">
+          <a href="#">Movie Name</a>
+          <p>Ratings <span>8.1</span>/ 10</p>
+        </div>
+      </div>
+      <div class="movie-item-style-2 movie-item-style-1">
+        <img src="/img/movies/mv2.jpg" alt="" />
+        <div class="movie-item-info">
+          <a href="#">Movie Name</a>
+          <p>Ratings <span>8.1</span>/ 10</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="subordinates-list">
+    <h2>Subordinates</h2>
+    <div class="movie-sidelist d-flex">
+      <div class="movie-item-style-2 movie-item-style-1">
+        <img src="/img/movies/mv2.jpg" alt="" />
+        <div class="movie-item-info">
+          <a href="#">Movie Name</a>
+          <p>Ratings <span>8.1</span>/ 10</p>
+        </div>
+      </div>
+      <div class="movie-item-style-2 movie-item-style-1">
+        <img src="/img/movies/mv2.jpg" alt="" />
+        <div class="movie-item-info">
+          <a href="#">Movie Name</a>
+          <p>Ratings <span>8.1</span>/ 10</p>
+        </div>
+      </div>
+      <div class="movie-item-style-2 movie-item-style-1">
+        <img src="/img/movies/mv2.jpg" alt="" />
+        <div class="movie-item-info">
+          <a href="#">Movie Name</a>
+          <p>Ratings <span>8.1</span>/ 10</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
