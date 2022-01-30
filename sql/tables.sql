@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS users(
 	email 		VARCHAR(30) NOT NULL,
 	password	TEXT 		NOT NULL,
 	type 		user_type   DEFAULT 'customer',
+	description TEXT NULL,
 	created_at 	TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
 	CONSTRAINT valid_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'),

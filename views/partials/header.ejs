@@ -21,7 +21,7 @@
         </div> -->
         <div class="navbar-auth">
           <% if(typeof loggedIn != 'undefined' && loggedIn){ %>
-              <a href="#"><%- userName %></a>
+              <a href="/profile"><%- userName %></a>
               <form method="POST" action="/logout">
                 <button type="submit" class="btn btn-secondary">Logout</button>
               </form>

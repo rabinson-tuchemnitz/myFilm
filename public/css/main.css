@@ -44,6 +44,12 @@ btn {
   color: var(--white-color);
 }
 
+.alert-message-wrapper {
+  position:fixed;
+  right: 50px;
+  top: calc(var(--header-height) + 20px);
+}
+
 .sidebar {
   position: fixed;
   top: var(--header-height);
@@ -324,4 +330,12 @@ btn {
 
 .movie-item-info > p {
   color: var(--secondary-lighter-color)
+}
+
+.profile-card {
+  width: 350px;
+  background-color: #efefef;
+  border: none;
+  cursor: pointer;
+  transition: all 0.5s
 }

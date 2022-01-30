@@ -21,13 +21,18 @@ app.use(express.static(__dirname + '/public'));
 app.use(session({secret:"myfilmsecretkey@123", saveUninitialized : true, resave : true}));
 
 app.use(function (req, res, next) {
+   
     res.locals = {
       loggedIn: req.session.loggedIn,
+      userId: req.session.userId,
       userType: req.session.userType,
       userName: req.session.userName,
       success: req.session.success,
       message: req.session.message
     };
+    
+    req.session.message = null;
+    req.session.success = undefined;
 
     next();
  });

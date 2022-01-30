@@ -1,75 +1,65 @@
-<div class="container-fluid">
-    <div class="row">
-      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div
-          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-        >
-          <div class="container">
-            <h1 class="h2">Add Person</h1>
-            <br>
-            <div class="form-container col-8">
-                <form method="POST" action="/person">
-                  <div class="row mb-3">
-                    <div class="col-6">
-                      <div class="form-outline">
-                        <label class="form-label" for="name">Name</label>
-                        <input type="text" class="form-control" name="name" placeholder="Enter full name" />
-                      </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-outline">
-                          <label class="form-label" for="dob">Date of Birth</label>
-                          <input type="text" class="form-control" name="dob" placeholder="Date of Birth" />
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-outline">
-                          <label class="form-label" for="country">Country of Origin</label>
-                          <input type="text" class="form-control" name="country" placeholder="Eg. Germany"/>
-                        </div>
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <div class="col" >
-                        <div class="form-outline">
-                            <label for="formFile" class="form-label">Profile <Picture></Picture></label>
-                            <input class="form-control" type="file" id="formFile">
-                          </div>
-                    </div>  
-                    <div class="col">
-                      <div class="form-outline">
-                        <label class="form-label" for="role">Role</label>
-                        <select class="form-control person-role-select multiple" style="height: 100%" name="role" id="person_role">
-                            <option>Producer</option>
-                            <option>Director</option>
-                            <option>Actor</option>
-                            <option>Actress</option>
-                          </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <div class="col">
-                      <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea
-                          class="form-control"
-                          rows="4"
-                          name="description"
-                          placeholder="Enter some information"
-                        ></textarea>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Submit button -->
-                  <button type="submit" class="btn btn-primary btn-block mb-4">
-                    Save
-                  </button>
-                </form>
+<div class="container p-5">
+  <h1 class="h2">Add Person</h1>
+  <br>
+  <div class="form-container col-8">
+      <form method="POST" action="/person">
+        <div class="row mb-3">
+          <div class="col-6">
+            <div class="form-outline">
+              <label class="form-label" for="name">Name</label>
+              <input type="text" class="form-control" name="name" placeholder="Enter full name" />
+            </div>
+          </div>
+          <div class="col">
+              <div class="form-outline">
+                <label class="form-label" for="dob">Date of Birth</label>
+                <input type="text" class="form-control" name="dob" placeholder="Date of Birth" />
+              </div>
+          </div>
+          <div class="col">
+              <div class="form-outline">
+                <label class="form-label" for="country">Country of Origin</label>
+                <input type="text" class="form-control" name="country" placeholder="Eg. Germany"/>
               </div>
           </div>
         </div>
-      </main>
+        <div class="row mb-3">
+          <div class="col" >
+              <div class="form-outline">
+                  <label for="formFile" class="form-label">Profile <Picture></Picture></label>
+                  <input class="form-control" type="file" id="formFile">
+                </div>
+          </div>  
+          <div class="col">
+            <div class="form-outline">
+              <label class="form-label" for="role">Role</label>
+              <select class="form-control person-role-select multiple" style="height: 100%" name="role" id="person_role">
+                  <option>Producer</option>
+                  <option>Director</option>
+                  <option>Actor</option>
+                  <option>Actress</option>
+                </select>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col">
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea
+                class="form-control"
+                rows="4"
+                name="description"
+                placeholder="Enter some information"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block mb-4">
+          Save
+        </button>
+      </form>
     </div>
-  </div>
-  
+</div>
+       

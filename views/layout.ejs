@@ -28,6 +28,20 @@
             <%- include('./partials/sidebar.ejs') %>
         </div>
 
+        <div class="alert-message-wrapper" id="alert-message">
+            <% if (typeof success != 'undefined') { %>
+                <% if(success){ %>
+                    <div class="alert alert-success" role="alert">
+                    <%= message %>
+                    </div>
+                <% } else{ %>  
+                    <div class="alert alert-danger" role="alert">
+                    <%= message %>
+                    </div>
+                <% } %>
+            <% } %>
+        </div>
+
         <div class="main-wrapper flex-grow-1">
             <%- include('./partials/header.ejs') %>
 
