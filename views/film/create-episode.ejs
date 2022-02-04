@@ -1,0 +1,75 @@
+<div class="container-fluid">
+  <div class="row">
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <div class="container">
+          <h1 class="h2">Add Episode</h1>
+          <br />
+          <div class="form-container col-8">
+            <form method="POST" action="/film">
+              <input name="film_type" value="movie" hidden />
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="form-outline">
+                    <label class="form-label" for="episode_name">Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="episode_name"
+                      placeholder="Eg: Winter is coming"
+                    />
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-outline">
+                    <label class="form-label" for="episode_duration"
+                      >Film Duration</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="episode_duration"
+                      placeholder="Eg. 00h:20m"
+                    />
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="form-outline">
+                    <label class="form-label" for="release_date"
+                      >Release Date</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="release_date"
+                      placeholder="Eg. 2011-04-17"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="episode_description">Description</label>
+                    <textarea
+                      class="form-control"
+                      rows="4"
+                      name="episode_description"
+                      placeholder="Enter description about the episode"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+              <!-- Submit button -->
+              <button type="submit" class="btn btn-primary btn-block mb-4">
+                Save
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

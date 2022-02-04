@@ -1,0 +1,41 @@
+<div class="container p-5">
+    <h1 class="h2">Edit Profile</h1>
+    <br>
+    <div class="form-container col-8">
+        <form method="POST" action="/profile/edit">
+          <div class="row mb-3">
+            <div class="col">
+              <div class="form-outline">
+                <label class="form-label" for="email">Email</label>
+                <input type="text" class="form-control" name="email" placeholder="Email" readonly value="<%= email %>">
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-outline">
+                <label class="form-label" for="name">Name</label>
+                <input type="text" class="form-control" name="name" placeholder="Your full name" value="<%= name %>"/>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row mb-3">
+            <div class="col">
+              <div class="form-group">
+                <label for="summary">Summary</label>
+                <textarea
+                  class="form-control"
+                  rows="4"
+                  name="summary"
+                  placeholder="Write about yourself."
+                ><%= description %></textarea>
+              </div>
+            </div>
+          </div>
+          <!-- Submit button -->
+          <button type="submit" class="btn btn-primary btn-block mb-4">
+            Save
+          </button>
+        </form>
+      </div>
+  </div>
+         

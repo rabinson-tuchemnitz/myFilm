@@ -1,0 +1,51 @@
+<div
+  class="modal fade"
+  id="loginModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+      <form method="POST" action="/login">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Rate the movie</h5>
+        </div>
+        <div class="modal-body p-3">
+          <div class="form-group mb-2">
+            <div class="form-outline">
+                <label class="form-label" for="rating">Rating</label>
+                <select
+                  class="form-control"
+                  style="width: 100%"
+                  name="rating"
+                  id="rating"
+                >
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+          </div>
+          <div class="form-group mb-2">
+                <div class="form-group">
+                <label for="review">Review</label>
+                <textarea
+                    class="form-control"
+                    rows="4"
+                    name="review"
+                    placeholder="Enter your review"
+                ></textarea>
+                </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

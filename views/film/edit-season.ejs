@@ -1,0 +1,126 @@
+<div class="container-fluid">
+    <div class="row">
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+        >
+          <div class="container">
+            <h1 class="h2">Add Season</h1>
+            <br />
+            <div class="form-container col-8">
+              <form method="POST" action="/film">
+                <input name="film_type" value="movie" hidden />
+                <div class="row mb-3">
+                  <div class="col">
+                    <div class="form-outline">
+                      <label class="form-label" for="series_name">Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="series_name"
+                        placeholder="Eg. Game of Throne"
+                      />
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-outline">
+                      <label for="formFile" class="form-label">Cover Image</label>
+                      <input
+                        class="form-control"
+                        type="file"
+                        id="series_thumbnail"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col">
+                    <div class="form-outline">
+                      <label class="form-label" for="country"
+                        >Country of Origin</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="country"
+                        placeholder="Eg. Germany"
+                      />
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-outline">
+                      <label class="form-label" for="min_age">Minimum Age</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="min_age"
+                        placeholder="Eg. 13"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-8">
+                    <div class="form-outline">
+                      <label class="form-label" for="crew"
+                        >Film Related person</label
+                      >
+                      <select
+                        class="form-control series-crew-select multiple"
+                        style="width: 100%"
+                        name="series_crew"
+                        id="series_crew"
+                        multiple
+                      >
+                        <option>John Cena (Producer)</option>
+                        <option>The Rock (Director)</option>
+                        <option>Edge (Actor)</option>
+                        <option>Eve (Actress)</option>
+                        <option>Triple-H (Actor)</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-outline">
+                      <label class="form-label" for="genre">Genre</label>
+                      <select
+                        class="form-control movie-genre-select multiple"
+                        style="width: 100%"
+                        name="series_genre"
+                        id="series_genre"
+                        multiple
+                      >
+                        <option>Comedy</option>
+                        <option>Action</option>
+                        <option>Thriller</option>
+                        <option>Horror</option>
+                        <option>Love</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="series_description">Description</label>
+                      <textarea
+                        class="form-control"
+                        rows="4"
+                        name="series_description"
+                        placeholder="Enter description about the series"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary btn-block mb-4">
+                  Save
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  
