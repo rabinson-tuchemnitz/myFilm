@@ -1,4 +1,5 @@
 const filmModel = require('../models/film');
+const personModel = require('../models/person');
 
 const get_film_list = async (req, res) => {
   try {
@@ -18,8 +19,13 @@ const get_watched_history = async (req, res) => {
   res.render('film/history.ejs');
 };
 
-const create_film = (req, res) => {
-  res.render('film/create.ejs', { title: 'Create Film' });
+const create_film = async (req, res) => {
+  genres = await filmModel.getGenres();
+  films = await filmModel.getNonSubOrdinateFilms();
+  persons = await personModel.getBasicPersonList();
+
+  console.log(genres, films, persons)
+  res.render('film/create.ejs', { genres, films, persons });
 };
 
 const store_film = (req, res) => {
