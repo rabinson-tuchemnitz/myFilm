@@ -1,7 +1,7 @@
 const pool = require('../db');
 
 const getFilmList = async () => {
-  queryResult = await pool.query('SELECT * FROM get_films()');
+  queryResult = await pool.query('SELECT * FROM get_film_list()');
 
   return queryResult.rows;
 };

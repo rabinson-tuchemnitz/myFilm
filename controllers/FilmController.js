@@ -3,9 +3,12 @@ const personModel = require('../models/person');
 
 const get_film_list = async (req, res) => {
   try {
-    // films = await filmModel.getFilmList();
-    res.render('film/index.ejs');
-  } catch (err) {}
+    films = await filmModel.getFilmList();
+    console.log(films);
+    res.render('film/index.ejs', films);
+  } catch (err) {
+    
+  }
 };
 
 const get_watched_history = async (req, res) => {

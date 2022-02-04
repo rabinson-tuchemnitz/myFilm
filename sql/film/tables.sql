@@ -1,5 +1,4 @@
 ----- Create films table
-CREATE TYPE VALID_FILM_TYPES AS ENUM ('movie', 'series', 'season', 'episode')
 
 CREATE TABLE films(
 	film_id 			SERIAL PRIMARY KEY,

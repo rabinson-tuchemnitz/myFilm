@@ -119,7 +119,6 @@ AS $$
 			
 -- 			Insert film_genres relation records
 			PERFORM insert_film_genres(created_film_id, genres);
-
 			
 -- 			Insert film_persons relation records
 			PERFORM insert_film_persons(created_film_id, persons);
@@ -129,6 +128,44 @@ AS $$
 	END;
 $$ LANGUAGE plpgsql;
 -->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+CREATE OR REPLACE FUNCTION get_film_list()
+	RETURNS TABLE (
+		id INT, 
+		title TEXT,
+		description TEXT,
+		image_path VARCHAR,
+		genres JSONB, 
+		persons JSONB
+	)
+AS $$
+	BEGIN
+		RETURN QUERY 
+			SELECT 
+			films.film_id, CONCAT(films.title, ' (', EXTRACT(YEAR FROM DATE(films.release_date)), ')'), 
+			films.description, films.image_path, jsonb_agg(temp1.genres), jsonb_agg(temp2.persons)
+			FROM films 
+			LEFT JOIN (
+				SELECT film_genres.film_id, jsonb_build_object(
+					'id', genres.genre_id,
+					'title', genres.name
+				) genres
+				FROM film_genres 
+				JOIN genres ON genres.genre_id = film_genres.genre_id
+			) temp1 ON temp1.film_id = films.film_id
+			LEFT JOIN (
+				SELECT film_persons.film_id, jsonb_build_object(
+					'id', persons.person_id,
+					'title', CONCAT(persons.name, ' (',  INITCAP(persons.role::VARCHAR), ')')
+				) persons
+				FROM film_persons
+				JOIN persons ON persons.person_id = film_persons.person_id
+			) temp2 ON temp2.film_id = films.film_id
+			
+			GROUP BY films.film_id;
+	END;
+$$ LANGUAGE plpgsql;
+
+
 ----------------------------- FUNCTIONS END -----------------------------------------
 
 
