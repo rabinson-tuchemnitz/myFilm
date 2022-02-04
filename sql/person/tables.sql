@@ -16,3 +16,18 @@ CREATE TABLE IF NOT EXISTS persons(
 	CONSTRAINT positive_height CHECK (height > 0),
     CONSTRAINT valid_dob CHECK (dob < current_date)
 );
+
+------------------------------------------------------------------------------------
+CREATE TABLE film_persons(
+	film_id INT NOT NULL,
+	person_id INT NOT NULL,
+	
+	CONSTRAINT fk_key_films
+	FOREIGN KEY(film_id) REFERENCES films(film_id)
+	ON DELETE CASCADE,
+
+	CONSTRAINT fk_key_persons
+	FOREIGN KEY(person_id) REFERENCES persons(person_id)
+	ON DELETE CASCADE
+);
+

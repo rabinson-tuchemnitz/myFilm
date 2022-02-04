@@ -1,12 +1,12 @@
 ----- Create films table
-CREATE TYPE VALID_FILM_TYPES AS ENUM ('movie', 'series')
+CREATE TYPE VALID_FILM_TYPES AS ENUM ('movie', 'series', 'season', 'episode')
 
 CREATE TABLE films(
 	film_id 			SERIAL PRIMARY KEY,
 	title 				VARCHAR(30) NOT NULL,
 	release_date 		DATE NOT NULL,
 	film_type 			VALID_FILM_TYPES NOT NULL,
-	subordinated_to 	INT DEFAULT NULL,
+	subordinated_to 	INT DEFAULT 0,
 	production_country  VARCHAR(30) NOT NULL,
 	minimum_age 		INT CHECK ( minimum_age > 0 ) NOT NULL,
 	image_path 			VARCHAR(50),

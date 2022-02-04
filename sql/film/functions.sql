@@ -16,55 +16,119 @@ $$ LANGUAGE plpgsql;
 
 -->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-CREATE OR REPLACE FUNCTION get_non_subordinated_films ()
+CREATE OR REPLACE FUNCTION get_non_subordinated_movies ()
     RETURNS TABLE (
         id INT,
-        title VARCHAR
+        title TEXT
     )
 AS $$
 BEGIN
     RETURN QUERY 
-        SELECT films.film_id, films.title
+        SELECT films.film_id, CONCAT(films.title, ' (', EXTRACT(YEAR FROM DATE (films.release_date)) ,')')
         FROM films
-        WHERE subordinated_to IS NULL;
+        WHERE film_type = 'movie' AND subordinated_to IS NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+--------------------------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION get_non_subordinated_series ()
+    RETURNS TABLE (
+        id INT,
+        title TEXT
+    )
+AS $$
+BEGIN
+    RETURN QUERY 
+        SELECT films.film_id, CONCAT(films.title, ' (', EXTRACT(YEAR FROM DATE (films.release_date)) ,')')
+        FROM films
+        WHERE film_type = 'series' AND subordinated_to IS NULL;
 END;
 $$ LANGUAGE plpgsql;
 
 -->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+CREATE OR REPLACE FUNCTION insert_film_genres(film_id INT, genre_id_array INT[]) 
+    RETURNS BOOL 
+AS $$
+    DECLARE
+    genre_id INT;
+    BEGIN
+        IF((film_id IS NULL) OR (array_length(genre_id_array, 1) = 0)) THEN
+            RETURN FALSE;
+        ELSE
+            FOREACH genre_id IN ARRAY genre_id_array LOOP
+                INSERT INTO film_genres VALUES(film_id, genre_id);
+            END LOOP;
+        RETURN TRUE;
+        END IF;
+    END;
+$$ LANGUAGE plpgsql;
+-------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION insert_film_persons(film_id INT, person_id_array INT[]) 
+    RETURNS BOOL 
+AS $$
+    DECLARE
+    person_id INT;
+    BEGIN
+        IF((film_id IS NULL) OR (array_length(person_id_array, 1) = 0)) THEN
+            RETURN FALSE;
+        ELSE
+            FOREACH person_id IN ARRAY person_id_array LOOP
+                INSERT INTO film_persons VALUES(film_id, person_id);
+            END LOOP;
+        RETURN TRUE;
+        END IF;
+    END;
+$$ LANGUAGE plpgsql;
+--------------------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION insert_film (
 	title 				VARCHAR(30),
 	release_date 		DATE,
 	film_type 			VALID_FILM_TYPES,
 	production_country 	VARCHAR(20),
 	minimum_age 		INT,
+	persons				INT [],
+	genres				INT [],
 	duration			TEXT DEFAULT NULL,
-	subordinated_to 	INT DEFAULT NULL,
+	subordinated_to 	INT DEFAULT 0,
 	image_path 			VARCHAR(20) DEFAULT NULL,
-	description 		TEXT DEFAULT NULL
+	description 		TEXT DEFAULT ""
 ) 
-    RETURNS BOOL
+    RETURNS INT
 AS $$
+	DECLARE
+		created_film_id INT;
 	BEGIN
+-- 		Check for required field
         IF (
             (title IS NULL) OR (release_date IS NULL) OR (film_type IS NULL) 
-            OR (production_country IS NULL) OR (minimum_age IS NULL)
+            OR (production_country IS NULL) OR (minimum_age IS NULL) 
+			OR (array_length(genres, 1) < 1)
+			OR (array_length(persons, 1) < 1)
         ) THEN
             RAISE EXCEPTION 'Validation Error: Provide all required fields';
-            RETURN FALSE;
+            RETURN 0;
         ELSE
+-- 			Insert new film in films table
             INSERT INTO films (title, release_date, film_type, production_country, minimum_age, 
                 subordinated_to, image_path, description) 
             VALUES (title, release_date, film_type, production_country, minimum_age, 
-                subordinated_to, image_path, description);												
+                subordinated_to, image_path, description)
+			RETURNING films.film_id INTO created_film_id;
+			
+-- 			Insert film_genres relation records
+			PERFORM insert_film_genres(created_film_id, genres);
+
+			
+-- 			Insert film_persons relation records
+			PERFORM insert_film_persons(created_film_id, persons);
             
-            RETURN TRUE;
+            RETURN create_film_id;
         END IF;
 	END;
 $$ LANGUAGE plpgsql;
-
-SELECT insert_film(title:='new film', film_type:='movie', release_date:='2021-01-01', production_country:='Germany', minimum_age:=13)
-
+-->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ----------------------------- FUNCTIONS END -----------------------------------------
 
 

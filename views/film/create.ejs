@@ -7,158 +7,324 @@
         <div class="container">
           <h1 class="h2">Add Film</h1>
           <br />
-          <div class="form-container col-8">
-            <form method="POST" action="/film/create">
-              <input name="film_type" value="movie" hidden />
-              <div class="row mb-3">
-                <div class="col-3">
-                  <div class="form-outline">
-                    <label class="form-label" for="name">Type</label>
-                    <select
-                      class="form-select"
-                      aria-label="Select subordinate(if any)"
-                      name="subordinated_to"
-                    >
-                      <option value="movie" selected>Movie</option>
-                      <option value="series">Series</option>
-                    </select>
+          <ul class="nav nav-tabs col-8" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="movie-tab" data-bs-toggle="tab" data-bs-target="#movie" type="button" role="tab" aria-controls="movie" aria-selected="true">Movie</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="series-tab" data-bs-toggle="tab" data-bs-target="#series" type="button" role="tab" aria-controls="series" aria-selected="false">Series</button>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="movie" role="tabpanel" aria-labelledby="movie-tab">
+              <div class="form-container col-8">
+                <form method="POST" action="/film/create">
+                  <input name="film_type" value="movie" hidden>
+                  <div class="row mb-3">
+                    <div class="col-6">
+                      <div class="form-outline">
+                        <label class="form-label" for="name">Name</label>
+                        <input type="text" class="form-control" name="name" placeholder="Enter movie name" />
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-outline">
+                        <label class="form-label" for="movie_subordinate_to"
+                          >Subordinated To</label
+                        >
+                        <select
+                          class="form-select"
+                          aria-label="Select subordinate(if any)"
+                          name="subordinated_to"
+                        >
+                          <option value="0" selected>Select (if any)</option>
+                          <% films.forEach(function(film) { %>
+                            <option value="<%= film.id %>"> <%= film.title %></option>
+                          <% }); %> 
+                        </select>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="col-6">
-                  <div class="form-outline">
-                    <label class="form-label" for="name">Name</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="name"
-                      placeholder="Enter movie name"
-                    />
+                  <div class="row mb-3">
+                    <div class="col-3">
+                      <div class="form-outline">
+                        <label class="form-label" for="release_date"
+                          >Release Date</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="release_date"
+                          placeholder="Eg. 2022-01-10"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div class="form-outline">
+                        <label class="form-label" for="country"
+                          >Country of Origin</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="country"
+                          placeholder="Eg. Germany"
+                        />
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-outline">
+                        <label class="form-label" for="min_age">Minimum Age</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="min_age"
+                          placeholder="Eg. 13"
+                        />
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-outline">
+                        <label class="form-label" for="duration"
+                          >Film Duration</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="duration"
+                          placeholder="Eg. 2:40"
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-                
-                <div class="col-3">
-                  <div class="form-outline">
-                    <label class="form-label" for="release_date"
-                      >Release Date</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="release_date"
-                      placeholder="Eg. 2022-01-10"
-                    />
+                  <div class="row mb-3">
+                    <div class="col-7">
+                      <div class="form-outline">
+                        <label class="form-label" for="crew"
+                          >Film Related person</label
+                        >
+                        <select
+                          class="form-control movie-persons-select multiple"
+                          name="persons"
+                          id="movie_persons"
+                          multiple
+                        >
+                        <% persons.forEach(function(person) { %>
+                          <option value="<%= person.id %>"> <%= person.name %></option>
+                        <% }); %> 
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-5">
+                      <div class="form-outline">
+                        <label class="form-label" for="genre">Genre</label>
+                        <select
+                          class="form-control movie-genres-select multiple"
+                          name="genres"
+                          id="movie_genres"
+                          multiple
+                        >
+                        <% genres.forEach(function(genre) { %>
+                          <option value="<%= genre.id %>"> <%= genre.name %></option>
+                        <% }); %> 
+                        </select>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                
+                  <div class="row mb-3">
+                    <div class="col">
+                      <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea
+                          class="form-control"
+                          rows="6"
+                          name="description"
+                          placeholder="Enter description about the movie"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Submit button -->
+                  <button type="submit" class="btn btn-primary btn-block mb-4">
+                    Save
+                  </button>
+                </form>
               </div>
-              <div class="row mb-3">
-                <div class="col-5">
-                  <div class="form-outline">
-                    <label class="form-label" for="subordinate_to"
-                      >Subordinated To</label
-                    >
-                    <select
-                      class="form-select"
-                      aria-label="Select subordinate(if any)"
-                      name="subordinated_to"
-                    >
-                      <option selected>Select (if any)</option>
-                      <% films.forEach(function(film) { %>
-                        <option value="<%= film.id %>"> <%= film.title %></option>
-                      <% }); %> 
-                    </select>
+            </div>
+            <div class="tab-pane fade" id="series" role="tabpanel" aria-labelledby="series-tab">
+              <div class="form-container col-8">
+                <form method="POST" action="/film/create">
+                  <input name="film_type" value="series" hidden>
+                  <div class="row mb-3">
+                    <div class="col-6">
+                      <div class="form-outline">
+                        <label class="form-label" for="name">Name</label>
+                        <input type="text" class="form-control" name="name" placeholder="Enter movie name" />
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-outline">
+                        <label class="form-label" for="subordinate_to"
+                          >Subordinated To</label
+                        >
+                        <select
+                          class="form-select"
+                          aria-label="Select subordinate(if any)"
+                          name="subordinated_to"
+                          id="subordinated_to"
+                        >
+                          <option value="0" selected>Select (if any)</option>
+                          <% films.forEach(function(film) { %>
+                            <option value="<%= film.id %>"> <%= film.title %></option>
+                          <% }); %> 
+                        </select>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="col-3">
-                  <div class="form-outline">
-                    <label class="form-label" for="country"
-                      >Country of Origin</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="country"
-                      placeholder="Eg. Germany"
-                    />
+                  <div class="row mb-3">
+                    <div class="col-3">
+                      <div class="form-outline">
+                        <label class="form-label" for="release_date"
+                          >Release Date</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="release_date"
+                          placeholder="Eg. 2022-01-10"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div class="form-outline">
+                        <label class="form-label" for="country"
+                          >Country of Origin</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="country"
+                          placeholder="Eg. Germany"
+                        />
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-outline">
+                        <label class="form-label" for="min_age">Minimum Age</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="min_age"
+                          placeholder="Eg. 13"
+                        />
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-outline">
+                        <label class="form-label" for="duration"
+                          >Film Duration</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="duration"
+                          placeholder="Eg. 2:40"
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="col">
-                  <div class="form-outline">
-                    <label class="form-label" for="min_age">Minimum Age</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="min_age"
-                      placeholder="Eg. 13"
-                    />
+                  <div class="row mb-3">
+                    <div class="col-7">
+                      <div class="form-outline">
+                        <label class="form-label" for="series_persons"
+                          >Film Related person</label>
+                        <select
+                          class="form-control series-persons-select multiple"
+                          style="width:100%"
+                          name="persons"
+                          id="series_persons"
+                          multiple
+                        >
+                        <% persons.forEach(function(person) { %>
+                          <option value="<%= person.id %>"> <%= person.name %></option>
+                        <% }); %> 
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-5">
+                      <div class="form-outline">
+                        <label class="form-label" for="series_genres">Genre</label>
+                        <select
+                          class="form-control series-genres-select multiple"
+                          style="width:100%"
+                          name="genres"
+                          id="series_genres"
+                          multiple
+                        >
+                        <% genres.forEach(function(genre) { %>
+                          <option value="<%= genre.id %>"> <%= genre.name %></option>
+                        <% }); %> 
+                        </select>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="col">
-                  <div class="form-outline">
-                    <label class="form-label" for="duration"
-                      >Film Duration</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="duration"
-                      placeholder="Eg. 2:40"
-                    />
+                  <div class="row mb-3">
+                    <div class="col">
+                      <div class="form-group">
+                        <label for="series_description">Description</label>
+                        <textarea
+                          class="form-control"
+                          rows="6"
+                          name="description"
+                          placeholder="Enter description about the series"
+                        ></textarea>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                  <br>
+                  <div class="row mb-3">
+                    <div class="col">
+                      <div><h6>Season Information</h6></div>
+                      <div class="form-group">
+                        <label class="form-label" for="season_name">Name</label>
+                        <input type="text" class="form-control" name="season_name" placeholder="Eg: Season - 1" />
+                      </div>
+                      <br>
+                      <div class="form-group">
+                        <label for="season_description">Description</label>
+                        <textarea
+                          class="form-control"
+                          rows="4"
+                          name="season_description"
+                          placeholder="Enter description about the season"
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div><h6>Episode Information</h6></div>
+                      <div class="form-group">
+                        <label class="form-label" for="episode_name">Name</label>
+                        <input type="text" class="form-control" name="episode_name" placeholder="Eg: Winter is coming" />
+                      </div>
+                      <br>
+                      <div class="form-group">
+                        <label for="episode_description">Description</label>
+                        <textarea
+                          class="form-control"
+                          rows="4"
+                          name="episode_description"
+                          placeholder="Enter description about the episode"
+                        ></textarea>
+                    </div>
+                    </div>
+                  </div>
+                  <!-- Submit button -->
+                  <button type="submit" class="btn btn-primary btn-block mb-4">
+                    Save
+                  </button>             
+                </form>
               </div>
-              <div class="row mb-3">
-                <div class="col-7">
-                  <div class="form-outline">
-                    <label class="form-label" for="crew"
-                      >Film Related person</label
-                    >
-                    <select
-                      class="form-control movie-crew-select multiple"
-                      name="persons[]"
-                      id="movie_persons"
-                      multiple
-                    >
-                    <% persons.forEach(function(person) { %>
-                      <option value="<%= person.id %>"> <%= person.name %></option>
-                    <% }); %> 
-                    </select>
-                  </div>
-                </div>
-                <div class="col-5">
-                  <div class="form-outline">
-                    <label class="form-label" for="genre">Genre</label>
-                    <select
-                      class="form-control movie-genre-select multiple"
-                      name="genres[]"
-                      id="movie_genres"
-                      multiple
-                    >
-                    <% genres.forEach(function(genre) { %>
-                      <option value="<%= genre.id %>"> <%= genre.name %></option>
-                    <% }); %> 
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="row mb-3">
-                <div class="col">
-                  <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea
-                      class="form-control"
-                      rows="6"
-                      name="description"
-                      placeholder="Enter description about the movie"
-                    ></textarea>
-                  </div>
-                </div>
-              </div>
-              <!-- Submit button -->
-              <button type="submit" class="btn btn-primary btn-block mb-4">
-                Save
-              </button>
-            </form>
+            </div>
           </div>
         </div>
       </div>
