@@ -79,6 +79,13 @@ main {
   font-size: 2rem;
 }
 
+.film-badge {
+  padding: 5px;
+  border-radius: 4px;
+  color: var(--white-color);
+  background-color: var(--primary-color);
+
+}
 .nav_link {
   color: var(--white-color)
 

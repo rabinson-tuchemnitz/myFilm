@@ -3,7 +3,7 @@
     <div class="film-image-container">
       <img src="/img/movies/mv1.jpg" />
       <% if(film.film_type == "movie" || film.film_type == "episode") { %>
-        <button class="btn btn-primary mt-2">Watch</button>
+        <button class="btn btn-primary mt-2" onclick="openPlayModel(<%= film.id%>); return false;">Watch</button>
       <% } %>
     </div>
     <div class="mv-item-infor p-4">
@@ -44,6 +44,7 @@
       </div>
 
       <p class="rate">
+        <span class="film-badge"><%= film.film_type %></span> &nbsp;
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -57,21 +58,23 @@
           />
         </svg>
         <span>8.1</span> /10
-        <a href="#" style="text-decoration: underline">Rate this movie</a>
+        &nbsp;<a href="#" style="text-decoration: underline">Rate this </a>
       </p>
-      <p>Genres: 
-        <% film.genres[0] != null && film.genres?.forEach(function (genre) { %>
+      <p class="run-time"> <b>Run Time:</b> <%= film.duration%>&nbsp;&nbsp;<span><b>Minimum-Age :</b> <%= film.min_age%> years</span>&nbsp;&nbsp;<span><b>Release:</b> <%= film.release_date%></span></p>
+
+      <p><b>Genres: </b>
+        <% film.genres?.forEach(function (genre) { %>
           <%= genre?.title %>,
         <% }); %>  
       </p>
-      <p>Persons:
-        <% film.persons[0] != null && film.persons?.forEach(function (person) { %>
+      <p><b>Persons:</b>
+        <% film.persons?.forEach(function (person) { %>
           <a href="#"><%= person.title %>,</a>
         <% }); %>  
       </p>
-      <p class="describe">
+      <i class="describe">
         <%= film.description %>
-      </p>
+      </i>
     </div>
   </div>
   <br />
@@ -88,11 +91,15 @@
         <% }%>
         
         <% if(typeof loggedIn != 'undefined' && loggedIn && userType == "admin"){ %>
-          <a href="<%= film.id %>/season" class="btn btn-primary">Add Season</a>
+          <% if(film.film_type == "series") { %>
+            <a href="<%= film.id %>/season" class="btn btn-primary">Add Season</a>
+          <% } else if(film.film_type == "season") { %>
+            <a href="<%= film.id %>/episode" class="btn btn-primary">Add Episode</a>
+          <% }%>
         <% } %>
       </div>
       <div class="movie-sidelist d-flex">
-        <% film.subordinates[0] != null && film.subordinates?.forEach(function (subordinate) { %>
+        <% film.subordinates?.forEach(function (subordinate) { %>
           <div class="movie-item-style-2 movie-item-style-1">
             <img src="/img/movies/mv2.jpg" alt="" />
             <div class="movie-item-info">

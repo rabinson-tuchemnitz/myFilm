@@ -6,6 +6,11 @@ function openRegisterModal() {
     $("#registerModal").addClass("fade").modal("show");
 }
 
+function openPlayModel(filmId) {
+    $("#play_film_id").val( filmId );
+    $('#playMovieModal').addClass("fade").modal("show");
+}
+
 // In your Javascript (external .js resource or <script> tag)
 $(document).ready(function() {
     $('.movie-genres-select').select2();

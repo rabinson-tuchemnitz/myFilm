@@ -24,7 +24,10 @@ const storeFilm = async (
 ) => {
   persons = persons.length == 1 ? '{' + persons + '}' : '{' + persons.join() + '}';
   genres = genres.length == 1 ? '{' + genres + '}' :'{' + genres.join() + '}';
-
+ console.log( [
+  name, release_date, film_type, production_country, minimum_age, persons,
+  genres, subordinated_to, description, duration,
+])
   queryResult = await pool.query(
     `
     SELECT insert_film(
@@ -53,6 +56,11 @@ const getFilmById = async (id) => {
   return queryResult.rows[0];
 };
 
+const getBasicFilmById = async (id) => {
+  queryResult = await pool.query('SELECT * FROM get_basic_film_by_id($1)', [id]);
+  return queryResult.rows[0];
+}
+
 const updateFilm = async () => {};
 
 const deleteFilm = async () => {};
@@ -63,9 +71,14 @@ const getGenres = async () => {
   return queryResult.rows;
 };
 
-const storeFilmWatchedByUser = async () => {};
+const storeFilmWatchedByUser = async (filmId, userId) => {
+  queryResult = await pool.query('SELECT * FROM insert_watch_histroy($1, $2)',[filmId, userId]);
+  return queryResult.rows;
+};
 
-const getFilmWatchedHistory = async () => {};
+const getFilmWatchedHistory = async () => {
+  
+};
 
 const storeFilmRating = async () => {};
 
@@ -75,6 +88,7 @@ module.exports = {
   getNonSubOrdinateSeries,
   storeFilm,
   getFilmById,
+  getBasicFilmById,
   updateFilm,
   deleteFilm,
   getGenres,
