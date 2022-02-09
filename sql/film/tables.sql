@@ -33,4 +33,3 @@ CREATE TABLE IF NOT EXISTS film_genres(
 
 	PRIMARY KEY (film_id, genre_id)
 );
-

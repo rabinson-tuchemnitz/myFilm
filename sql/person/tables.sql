@@ -1,5 +1,5 @@
 -- Create persons table
-CREATE TYPE PERSON_ROLE_TYPE AS ENUM ('producer', 'director', 'actor', 'actress')
+CREATE TYPE PERSON_ROLE_TYPE AS ENUM ('producer', 'director', 'actor', 'actress');
 CREATE TYPE GENDER_TYPE AS ENUM ('male', 'female', 'others');
 
 CREATE TABLE IF NOT EXISTS persons(

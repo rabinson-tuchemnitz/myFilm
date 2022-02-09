@@ -2,12 +2,14 @@
   <div class="film-detail-wrapper d-flex">
     <div class="film-image-container">
       <img src="/img/movies/mv1.jpg" />
-      <button class="btn btn-primary mt-2">Watch</button>
+      <% if(film.film_type == "movie" || film.film_type == "episode") { %>
+        <button class="btn btn-primary mt-2">Watch</button>
+      <% } %>
     </div>
     <div class="mv-item-infor p-4">
       <div class="d-flex justify-content-between">
         <h3>
-          <a href="#">oblivion <span>(2012)</span></a>
+          <a href="#"><%= film.title %></span></a>
         </h3>
         <div class="action-group">
           <button class="btn btn-outline-secondary">
@@ -24,7 +26,7 @@
               />
             </svg>
           </button>
-          <button class="btn btn-outline-danger">
+          <button class="btn btn-outline-danger" id="" data-href="/film/18" data-toggle="modal" data-target="#confirm-delete">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -57,113 +59,65 @@
         <span>8.1</span> /10
         <a href="#" style="text-decoration: underline">Rate this movie</a>
       </p>
-      <p>
-        Stars: <a href="#">Robert Downey Jr.,</a> <a href="#">Chris Evans,</a>
-        <a href="#"> Chris Hemsworth</a>
+      <p>Genres: 
+        <% film.genres[0] != null && film.genres?.forEach(function (genre) { %>
+          <%= genre?.title %>,
+        <% }); %>  
+      </p>
+      <p>Persons:
+        <% film.persons[0] != null && film.persons?.forEach(function (person) { %>
+          <a href="#"><%= person.title %>,</a>
+        <% }); %>  
       </p>
       <p class="describe">
-        Earth's asdfasdfasdfasdf sda fasdfasdfk kasdjkf ;lasdf ;lasdkjf;laskdjf
-        ;lasdkjf ;laskdjf ;lasdkjf ;alsdkfj; aldkfj;a lsdkfj;a lsdkfj ;asldkfj
-        ;asldkfj ;asldkfj ;alsdkfjl;akdfj;asldfjjjla;sdkfasd;kwoperpoweiras
-        heroes must come together and learn to fight as a team if they are to
-        stop the mischievous Loki and his alien army from enslaving humanity...
+        <%= film.description %>
       </p>
     </div>
   </div>
   <br />
   <br />
   <hr />
-  <div class="season-list">
-    <div class="d-flex justify-content-between align-items-center">
-      <h1 class="h2">Seasons</h1>
-      <% if(typeof loggedIn != 'undefined' && loggedIn && userType == "admin"){
-      %>
-      <a href="/season" class="btn btn-primary">Add Season</a>
-      <% } %>
-    </div>
-    <div class="movie-sidelist d-flex">
-      <div class="movie-item-style-2 movie-item-style-1">
-        <img src="/img/movies/mv2.jpg" alt="" />
-        <div class="movie-item-info">
-          <a href="#">Movie Name</a>
-          <p>Ratings <span>8.1</span>/ 10</p>
-        </div>
+    <div class="subordinate-list">
+      <div class="d-flex justify-content-between align-items-center">
+        <% if(film.film_type == "series") { %>
+          <h1 class="h2">Seasons</h1>
+        <% } else if(film.film_type == "season") { %>
+          <h1 class="h2">Episodes</h1>
+        <% } else if(film.film_type == "movie") { %>
+          <h1 class="h2">Subordinates</h1>
+        <% }%>
+        
+        <% if(typeof loggedIn != 'undefined' && loggedIn && userType == "admin"){ %>
+          <a href="<%= film.id %>/season" class="btn btn-primary">Add Season</a>
+        <% } %>
       </div>
-      <div class="movie-item-style-2 movie-item-style-1">
-        <img src="/img/movies/mv2.jpg" alt="" />
-        <div class="movie-item-info">
-          <a href="#">Movie Name</a>
-          <p>Ratings <span>8.1</span>/ 10</p>
-        </div>
-      </div>
-      <div class="movie-item-style-2 movie-item-style-1">
-        <img src="/img/movies/mv2.jpg" alt="" />
-        <div class="movie-item-info">
-          <a href="#">Movie Name</a>
-          <p>Ratings <span>8.1</span>/ 10</p>
-        </div>
+      <div class="movie-sidelist d-flex">
+        <% film.subordinates[0] != null && film.subordinates?.forEach(function (subordinate) { %>
+          <div class="movie-item-style-2 movie-item-style-1">
+            <img src="/img/movies/mv2.jpg" alt="" />
+            <div class="movie-item-info">
+              <a href="/film/<%= subordinate?.id %>"><%= subordinate?.title %></a>
+              <p>Ratings <span>8.1</span>/ 10</p>
+            </div>
+          </div>
+        <% }); %>  
       </div>
     </div>
-  </div>
-  <br />
-  <br />
-  <hr />
-  <div class="episode-list">
-    <div class="d-flex justify-content-between align-items-center">
-      <h1 class="h2">Episodes</h1>
-      <% if(typeof loggedIn != 'undefined' && loggedIn && userType == "admin"){
-      %>
-      <a href="/season" class="btn btn-primary">Add Episodes</a>
-      <% } %>
-    </div>
-    <div class="movie-sidelist d-flex">
-      <div class="movie-item-style-2 movie-item-style-1">
-        <img src="/img/movies/mv2.jpg" alt="" />
-        <div class="movie-item-info">
-          <a href="#">Movie Name</a>
-          <p>Ratings <span>8.1</span>/ 10</p>
-        </div>
+  
+</div>
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              ...
+          </div>
+          <div class="modal-body">
+              ...
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <a class="btn btn-danger btn-ok">Delete</a>
+          </div>
       </div>
-      <div class="movie-item-style-2 movie-item-style-1">
-        <img src="/img/movies/mv2.jpg" alt="" />
-        <div class="movie-item-info">
-          <a href="#">Movie Name</a>
-          <p>Ratings <span>8.1</span>/ 10</p>
-        </div>
-      </div>
-      <div class="movie-item-style-2 movie-item-style-1">
-        <img src="/img/movies/mv2.jpg" alt="" />
-        <div class="movie-item-info">
-          <a href="#">Movie Name</a>
-          <p>Ratings <span>8.1</span>/ 10</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="subordinates-list">
-    <h2>Subordinates</h2>
-    <div class="movie-sidelist d-flex">
-      <div class="movie-item-style-2 movie-item-style-1">
-        <img src="/img/movies/mv2.jpg" alt="" />
-        <div class="movie-item-info">
-          <a href="#">Movie Name</a>
-          <p>Ratings <span>8.1</span>/ 10</p>
-        </div>
-      </div>
-      <div class="movie-item-style-2 movie-item-style-1">
-        <img src="/img/movies/mv2.jpg" alt="" />
-        <div class="movie-item-info">
-          <a href="#">Movie Name</a>
-          <p>Ratings <span>8.1</span>/ 10</p>
-        </div>
-      </div>
-      <div class="movie-item-style-2 movie-item-style-1">
-        <img src="/img/movies/mv2.jpg" alt="" />
-        <div class="movie-item-info">
-          <a href="#">Movie Name</a>
-          <p>Ratings <span>8.1</span>/ 10</p>
-        </div>
-      </div>
-    </div>
   </div>
 </div>

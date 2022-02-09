@@ -2,7 +2,7 @@
 
 
 -- Create users table
-CREATE TYPE user_type AS ENUM ('admin', 'customer')
+CREATE TYPE user_type AS ENUM ('admin', 'customer');
 CREATE TABLE IF NOT EXISTS users(
 	user_id		SERIAL 		PRIMARY KEY,
 	name 		VARCHAR(50) NOT NULL,
@@ -18,14 +18,6 @@ CREATE TABLE IF NOT EXISTS users(
 );
 
 
--- Create film_persons table to store the person related to the film
-
-CREATE TABLE IF NOT EXISTS film_persons(
-	film_id 	INTEGER REFERENCES films (film_id) ON DELETE CASCADE,
-	person_id 	INTEGER REFERENCES persons (person_id) ON DELETE CASCADE,
-
-	PRIMARY KEY (film_id, person_id)
-);
 
 -- Create user_films table to store the films watched by user
 
@@ -47,11 +39,4 @@ CREATE TABLE IF NOT EXISTS ratings(
 	CONSTRAINT valid_rating CHECK (rating >=0 AND rating <=10)
 );
 
--- Create film_groups table to store the subordinated films
-
-CREATE TABLE IF NOT EXISTS flim_groups(
-	group_id	SERIAL 		PRIMARY KEY,
-	name 		VARCHAR(50) NULL,
-	film_id		INTEGER REFERENCES films(film_id)
-);
 

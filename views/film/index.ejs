@@ -2,7 +2,7 @@
   <div class="d-flex justify-content-between align-items-center">
     <h1 class="h2">Flims</h1>
       <% if(typeof loggedIn != 'undefined' && loggedIn && userType == "admin"){ %>
-        <a href="/film" class="btn btn-primary">Add Film</a>
+        <a href="/film/create" class="btn btn-primary">Add Film</a>
       <% } %>
   </div>
   <br>
@@ -11,12 +11,20 @@
       <div class="movie-item-style-2">
         <img src="img/movies/mv1.jpg" alt="Film">
         <div class="mv-item-infor">
-          <h6><a href="moviesingle_light.html"><%= film.title %></a></h6>
+          <h6><a href="film/<%= film.id %>"><%= film.title %></a></h6>
           <p class="rate"><i class="ion-android-star"></i><span>8.1</span> /10</p>
           <p class="describe"><%= film.description %></p>
           <p class="run-time"> Run Time: 2h21’    .     <span>MMPA: PG-13 </span>    .     <span>Release: 1 May 2015</span></p>
-          <p>Director: <a href="#">Joss Whedon</a></p>
-          <p>Stars: <a href="#">Robert Downey Jr.,</a> <a href="#">Chris Evans,</a> <a href="#">  Chris Hemsworth</a></p>
+          <p>Genres: 
+            <% film.genres[0] != null && film.genres?.forEach(function (genre) { %>
+              <%= genre?.title %>,
+            <% }); %>  
+          </p>
+          <p>Persons:
+            <% film.persons[0] != null && film.persons?.forEach(function (person) { %>
+              <a href="#"><%= person?.title %>,</a>
+            <% }); %>  
+          </p>
         </div>
       </div>
     <% }); %> 

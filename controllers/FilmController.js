@@ -4,7 +4,6 @@ const personModel = require('../models/person');
 const get_film_list = async (req, res) => {
   try {
     films = await filmModel.getFilmList();
-    console.log(films);
     res.render('film/index.ejs', films);
   } catch (err) {
     
@@ -73,22 +72,10 @@ const store_film = async (req, res) => {
   }
 };
 
-const show_film = (req, res) => {
-  const data = {
-    name: 'Movie 1',
-    release_year: '2021',
-    rating: 8.3,
-    description:
-      'This is the description of the movie which is a paragraph long but just trying out for dev purpose',
-    persons: [
-      'Joss Wheldon (Director)',
-      'Rober Downey Jr. (Actor)',
-      'Scarlett Johansson (Actress)',
-    ],
-    genre: ['roman', 'action'],
-    thumbnail: '/img/movies/mv1.jpg',
-  };
-  res.render('film/show.ejs', data);
+const show_film = async (req, res) => {
+  film = await filmModel.getFilmById(req.params.film_id)
+  console.log(film)
+  res.render('film/show.ejs', film);
 };
 // const edit_film = (req, res) => {
 //     return 'edit film';
@@ -106,8 +93,12 @@ const show_film = (req, res) => {
 //     return 'delete film';
 // }
 
-const create_season = (req, res) => {
-  res.render('film/create-season.ejs');
+const create_season = async (req, res) => {
+  series_id = req.params.film_id;
+  genres = await filmModel.getGenres();
+  persons = await personModel.getBasicPersonList();
+
+  res.render('film/create-season.ejs', {series_id, genres, persons});
 };
 
 const store_season = (req, res) => {
@@ -123,7 +114,9 @@ const update_season = (req, res) => {
 };
 
 const create_episode = (req, res) => {
-  res.render('film/create-season.ejs');
+  season_id = req.params.season_id;
+
+  res.render('film/create-season.ejs',{season_id});
 };
 
 const store_episode = (req, res) => {

@@ -48,8 +48,8 @@ const storeFilm = async (
   return queryResult.rows[0].insert_film;
 };
 
-const getFilm = async (id) => {
-  queryResult = await pool.query('SELECT * FROM get_film($1)', [id]);
+const getFilmById = async (id) => {
+  queryResult = await pool.query('SELECT * FROM get_film_by_id($1)', [id]);
   return queryResult.rows[0];
 };
 
@@ -74,7 +74,7 @@ module.exports = {
   getNonSubOrdinateMovies,
   getNonSubOrdinateSeries,
   storeFilm,
-  getFilm,
+  getFilmById,
   updateFilm,
   deleteFilm,
   getGenres,

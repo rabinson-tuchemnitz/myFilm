@@ -15,3 +15,9 @@ $(document).ready(function() {
     $('.person-role-select').select2();
 });
 
+
+
+$('#confirm-film-delete').on('show.bs.modal', function(e) {
+    console.log('hi');
+    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+});
