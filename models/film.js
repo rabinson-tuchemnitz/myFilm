@@ -80,7 +80,12 @@ const getFilmWatchedHistory = async () => {
   
 };
 
-const storeFilmRating = async () => {};
+const storeFilmRating = async (filmId, userId, rating, review) => {
+  queryResult = await pool.query(
+    'SELECT * FROM insert_rating($1, $2, $3, $4)', [filmId, userId, rating, review]
+  );
+  return queryResult.rows;
+};
 
 module.exports = {
   getFilmList,

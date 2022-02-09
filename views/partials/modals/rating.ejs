@@ -1,6 +1,6 @@
 <div
   class="modal fade"
-  id="loginModal"
+  id="ratingModal"
   tabindex="-1"
   role="dialog"
   aria-labelledby="exampleModalLabel"
@@ -8,44 +8,65 @@
 >
   <div class="modal-dialog " role="document">
     <div class="modal-content">
-      <form method="POST" action="/login">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Rate the movie</h5>
-        </div>
-        <div class="modal-body p-3">
-          <div class="form-group mb-2">
-            <div class="form-outline">
-                <label class="form-label" for="rating">Rating</label>
-                <select
-                  class="form-control"
-                  style="width: 100%"
-                  name="rating"
-                  id="rating"
-                >
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
-              </div>
+      <% if (loggedIn) {%>
+        <form method="POST" action="/film-rating">
+          <input name="film_id" hidden id="rating_film_id" />
+          <input name="user_id" hidden value="<%=userId%>" />
+  
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Rate the movie</h5>
           </div>
-          <div class="form-group mb-2">
-                <div class="form-group">
-                <label for="review">Review</label>
-                <textarea
+          <div class="modal-body p-3">
+            <div class="form-group mb-2">
+              <div class="form-outline">
+                  <label class="form-label" for="rating">Rating</label>
+                  <select
                     class="form-control"
-                    rows="4"
-                    name="review"
-                    placeholder="Enter your review"
-                ></textarea>
+                    style="width: 100%"
+                    name="rating"
+                    id="rating"
+                  >
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                  </select>
                 </div>
+            </div>
+            <div class="form-group mb-2">
+                  <div class="form-group">
+                  <label for="review">Review</label>
+                  <textarea
+                      class="form-control"
+                      rows="4"
+                      name="review"
+                      placeholder="Enter your review"
+                  ></textarea>
+                  </div>
+            </div>
           </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      <%} else {%>
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Unauthenticated</h5>
+        </div>
+        <div class="model-body p-3">
+          <p>Login to rate the movie</p>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" data-toggle="modal" data-target="#loginModal" onclick="openLoginModal()" class="btn btn-secondary">Login</button>
         </div>
       </form>
+      <% } %>
     </div>
   </div>
 </div>

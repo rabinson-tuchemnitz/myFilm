@@ -23,5 +23,6 @@ router.get('/episode/edit', filmController.edit_episode);
 router.post('/episode/edit', filmController.update_episode);
 
 router.post('/watch-film', filmController.store_watch_film);
+router.post('/film-rating', filmController.store_film_rating);
 
 module.exports = router;

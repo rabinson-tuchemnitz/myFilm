@@ -70,4 +70,53 @@ AS $$
 	END;
 $$ LANGUAGE plpgsql;
 
---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION insert_watch_histroy(i_film_id INT, i_user_id INT) 
+	RETURNS BOOL
+AS $$
+	BEGIN
+		PERFORM * FROM user_films 
+		WHERE user_films.user_id = i_user_id 
+		AND user_films.film_id = i_film_id;
+		
+		-- Insert the record only if that is not inserted
+		IF NOT FOUND THEN
+			IF(i_film_id IS NULL OR i_user_id IS NULL) THEN
+				RAISE EXCEPTION 'Validation Error: Required film and user';
+				RETURN FALSE;
+			ELSE
+				INSERT INTO user_films (user_id, film_id) 
+					VALUES (i_user_id, i_film_id);
+			END IF;
+		END IF;
+		RETURN TRUE;
+	END;
+$$ LANGUAGE plpgsql;
+--------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION insert_rating(i_film_id INT, i_user_id INT, i_rating INT, i_review TEXT = '') 
+	RETURNS BOOL
+AS $$
+	BEGIN
+		PERFORM * FROM ratings 
+		WHERE ratings.user_id = i_user_id 
+		AND ratings.film_id = i_film_id;
+		
+		-- Insert the record only if that is not inserted
+		IF NOT FOUND THEN
+			IF(i_film_id IS NULL OR i_user_id IS NULL OR i_rating IS NULL) THEN
+				RAISE EXCEPTION 'Validation Error: Required film and user';
+				RETURN FALSE;
+			ELSE
+				INSERT INTO ratings (user_id, film_id, rating, review) 
+					VALUES (i_user_id, i_film_id, i_rating, i_review);
+			END IF;
+		-- Else update the current record		
+		ELSE 
+			UPDATE ratings SET rating = i_rating, review = i_review
+			WHERE film_id = i_film_id AND user_id = i_user_id;
+		END IF;
+		RETURN TRUE;
+	END;
+$$ LANGUAGE plpgsql;
+---------------------------------------------------------------------------------------

@@ -132,8 +132,11 @@ CREATE OR REPLACE FUNCTION get_film_list()
 	RETURNS TABLE (
 		id INT, 
 		title TEXT,
-        release_date TEXT,
-		description TEXT,
+        release_date VARCHAR,
+		film_type VARCHAR,
+		min_age INT,
+		production_country VARCHAR,
+		duration VARCHAR,
 		image_path VARCHAR,
 		genres JSONB, 
 		persons JSONB
@@ -142,37 +145,43 @@ AS $$
 	BEGIN
 		RETURN QUERY 
 			SELECT 
-			films.film_id, CONCAT(films.title, ' (', EXTRACT(YEAR FROM DATE(films.release_date)), ')'), films.release_date,
-			films.description, films.image_path, jsonb_agg(temp1.genres), jsonb_agg(temp2.persons)
+				films.film_id, CONCAT(films.title, ' (', EXTRACT(YEAR FROM DATE(films.release_date)), ')'),
+				to_char(films.release_date,'DD MONTH YYYY')::VARCHAR as release_date,
+				films.film_type::VARCHAR, films.minimum_age, films.production_country, 
+				films.duration, films.image_path, 
+				temp_genres.genres, temp_persons.persons
 			FROM films 
+ 			LEFT JOIN (
+ 				SELECT film_genres.film_id, jsonb_agg(jsonb_build_object(
+ 					'id',    genres.genre_id,
+ 					'title', genres.name
+ 				)) as genres
+ 				FROM film_genres 
+ 				JOIN genres ON genres.genre_id = film_genres.genre_id
+				GROUP BY film_genres.film_id
+ 			) temp_genres ON temp_genres.film_id = films.film_id
 			LEFT JOIN (
-				SELECT film_genres.film_id, jsonb_build_object(
-					'id', genres.genre_id,
-					'title', genres.name
-				) genres
-				FROM film_genres 
-				JOIN genres ON genres.genre_id = film_genres.genre_id
-			) temp1 ON temp1.film_id = films.film_id
-			LEFT JOIN (
-				SELECT film_persons.film_id, jsonb_build_object(
-					'id', persons.person_id,
+				SELECT film_persons.film_id, jsonb_agg(jsonb_build_object(
+					'id',    persons.person_id,
 					'title', CONCAT(persons.name, ' (',  INITCAP(persons.role::VARCHAR), ')')
-				) persons
+				)) persons
 				FROM film_persons
 				JOIN persons ON persons.person_id = film_persons.person_id
-			) temp2 ON temp2.film_id = films.film_id
-			WHERE films.film_type in ('series', 'movie')
-			GROUP BY films.film_id;
+				GROUP BY film_persons.film_id
+			) temp_persons ON temp_persons.film_id = films.film_id
+			WHERE films.film_type in ('series', 'movie');
 	END;
 $$ LANGUAGE plpgsql;
-
 ----------------------------------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION get_film_by_id(i_id int)
 	RETURNS TABLE (
 		id INT, 
 		title TEXT,
-        release_date TEXT,
-		film_type TEXT,
+        release_date VARCHAR,
+		film_type VARCHAR,
+		min_age INT,
+		production_country VARCHAR,
+		duration VARCHAR,
 		description TEXT,
 		image_path VARCHAR,
 		subordinates JSONB,
@@ -183,42 +192,73 @@ AS $$
 	BEGIN
 		RETURN QUERY 
 			SELECT 
-			films.film_id, CONCAT(films.title, ' (', EXTRACT(YEAR FROM DATE(films.release_date)), ')'), films.release_date::TEXT,
-			films.film_type::TEXT, films.description, films.image_path, jsonb_agg(temp1.subordinates) AS subordinates,
-			jsonb_agg(temp3.genres) AS genres, jsonb_agg(temp4.persons) AS persons
+				films.film_id, CONCAT(films.title, ' (', EXTRACT(YEAR FROM DATE(films.release_date)), ')'),
+				to_char(films.release_date,'DD MONTH YYYY')::VARCHAR as release_date,
+				films.film_type::VARCHAR, films.minimum_age, films.production_country, 
+				films.duration, films.description, films.image_path, 
+				temp_films.subordinates, temp_genres.genres, temp_persons.persons
 			FROM films 
+			
+-- 			join the film table with the subordinates list
 			LEFT JOIN (
-				SELECT films.film_id, films.film_type, jsonb_build_object(
+				SELECT films.film_id, films.film_type, jsonb_agg(jsonb_build_object(
 				'id', temp_film.film_id,
-				'title', temp_film.title
-				) subordinates
+				'title', CONCAT(temp_film.title, ' (', EXTRACT(YEAR FROM DATE(temp_film.release_date)), ')')
+				)) subordinates
 				FROM films
 				JOIN films as temp_film ON films.film_id = temp_film.subordinated_to
-				WHERE films.film_id = i_id
-			) temp1 ON temp1.film_id = films.film_id
-			LEFT JOIN (
-				SELECT film_genres.film_id, jsonb_build_object(
-					'id', genres.genre_id,
-					'title', genres.name
-				) genres
-				FROM film_genres 
-				JOIN genres ON genres.genre_id = film_genres.genre_id
+  				WHERE films.film_id = i_id
+				GROUP BY films.film_id
+			) temp_films ON temp_films.film_id = films.film_id
+			
+-- 			join the film table with genres list
+ 			LEFT JOIN (
+ 				SELECT film_genres.film_id, jsonb_agg(jsonb_build_object(
+ 					'id',    genres.genre_id,
+ 					'title', genres.name
+ 				)) as genres
+ 				FROM film_genres 
+ 				JOIN genres ON genres.genre_id = film_genres.genre_id
 				WHERE film_genres.film_id = i_id
-			) temp3 ON temp3.film_id = films.film_id
+				GROUP BY film_genres.film_id
+ 			) temp_genres ON temp_genres.film_id = films.film_id
+-- 			join the film table with persons list
 			LEFT JOIN (
-				SELECT film_persons.film_id, jsonb_build_object(
-					'id', persons.person_id,
+				SELECT film_persons.film_id, jsonb_agg(jsonb_build_object(
+					'id',    persons.person_id,
 					'title', CONCAT(persons.name, ' (',  INITCAP(persons.role::VARCHAR), ')')
-				) persons
+				)) persons
 				FROM film_persons
 				JOIN persons ON persons.person_id = film_persons.person_id
 				WHERE film_persons.film_id = i_id
-			) temp4 ON temp4.film_id = films.film_id
-			WHERE films.film_id = i_id
-			GROUP BY films.film_id;
+				GROUP BY film_persons.film_id
+			) temp_persons ON temp_persons.film_id = films.film_id
+			WHERE films.film_id = i_id;
 	END;
 $$ LANGUAGE plpgsql;
 
+-------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION get_basic_film_by_id(i_id INT)
+	RETURNS TABLE (
+		id INT, 
+		title VARCHAR,
+        release_date DATE,
+		film_type VALID_FILM_TYPES,
+		min_age INT,
+		production_country VARCHAR,
+		duration VARCHAR,
+		image_path VARCHAR
+	)
+AS $$
+	BEGIN
+		RETURN QUERY
+			SELECT 
+				films.film_id, films.title, films.release_date, films.film_type,
+				films.minimum_age, films.production_country, films.duration, films.image_path
+			FROM films
+			WHERE films.film_id = i_id;
+	END;
+$$ LANGUAGE plpgsql;
 ----------------------------- FUNCTIONS END -----------------------------------------
 
 
@@ -302,11 +342,4 @@ AFTER DELETE ON films
 FOR EACH ROW EXECUTE PROCEDURE delete_subordinated_films();
 
 
-
-
-
-
-
-
-
-
+--------------------------------------------------------------------------------

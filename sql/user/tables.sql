@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS ratings(
 	film_id 	INTEGER REFERENCES films (film_id) ON DELETE CASCADE,
 	user_id 	INTEGER REFERENCES users (user_id) ON DELETE CASCADE,
 	rating 		INTEGER NOT NULL,    
+	review      TEXT
 
 	PRIMARY KEY (user_id, film_id),
 	CONSTRAINT valid_rating CHECK (rating >=0 AND rating <=10)

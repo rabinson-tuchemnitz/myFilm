@@ -10,7 +10,7 @@ CREATE TABLE films(
 	minimum_age 		INT CHECK ( minimum_age > 0 ) NOT NULL,
 	image_path 			VARCHAR(50),
 	description 		TEXT, 
-	duration			TEXT,
+	duration			VARCHAR,
 	created_at 	 TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
 	CONSTRAINT age_more_than_zero CHECK (minimum_age > 0),

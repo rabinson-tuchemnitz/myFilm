@@ -184,6 +184,20 @@ const store_watch_film = async (req, res) => {
   }
 }
 
+const store_film_rating = async (req, res) => {
+  try {
+    const {film_id, user_id, rating, review} = req.body;
+    console.log(film_id, user_id, review, rating)
+    if(film_id && user_id) {
+      await filmModel.storeFilmRating(film_id, user_id, rating, review)
+    }
+    res.redirect('back')
+  } catch (err) {
+    console.log(err.message)
+    res.redirect('back')
+  }
+}
+
 module.exports = {
   get_film_list,
   get_watched_history,
@@ -202,5 +216,6 @@ module.exports = {
   store_episode,
   edit_episode,
   update_episode,
-  store_watch_film
+  store_watch_film,
+  store_film_rating
 };

@@ -58,7 +58,7 @@
           />
         </svg>
         <span>8.1</span> /10
-        &nbsp;<a href="#" style="text-decoration: underline">Rate this </a>
+        &nbsp;<button class="btn" onclick="openRatingModal(<%= film.id%>)" style="text-decoration: underline">Rate this </button>
       </p>
       <p class="run-time"> <b>Run Time:</b> <%= film.duration%>&nbsp;&nbsp;<span><b>Minimum-Age :</b> <%= film.min_age%> years</span>&nbsp;&nbsp;<span><b>Release:</b> <%= film.release_date%></span></p>
 

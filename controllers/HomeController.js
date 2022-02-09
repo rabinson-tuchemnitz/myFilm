@@ -42,13 +42,13 @@ const login_user = async (req, res) => {
 
       req.session.success = true;
       req.session.message = 'User logged in successfully';
-      res.redirect('/');
+      res.redirect('back');
     }
   } catch (err) {
     req.session.success = false;
     req.session.message = 'Failed to login.\n [' + err.message + ']';
 
-    res.redirect('/');
+    res.redirect('back');
   }
 };
 
@@ -62,12 +62,12 @@ const logout = async (req, res) => {
     req.session.success = true;
     req.session.message = 'Logged out successfully';
 
-    res.redirect('/');
+    res.redirect('back');
   } catch (err) {
     req.session.success = false;
     req.session.message = 'Failed to logout.\n [' + err.message + ']';
 
-    res.redirect('/');
+    res.redirect('back');
   }
 };
 
@@ -83,7 +83,7 @@ const view_profile = async (req, res) => {
       joinedAt: user.created_at,
     });
   } else {
-    res.redirect('/');
+    res.redirect('back');
   }
 };
 
@@ -100,7 +100,7 @@ const edit_profile = async (req, res) => {
       description: user.description,
     });
   } else {
-    res.redirect('/');
+    res.redirect('back');
   }
 };
 
