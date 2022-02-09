@@ -88,9 +88,23 @@ const show_film = async (req, res) => {
 //     return 'delete film';
 // }
 //
-// const destroy_film = (req, res) => {
-//     return 'delete film';
-// }
+const destroy_film = async (req, res) => {
+    try {
+      await filmModel.deleteFilm(req.params.film_id);
+      
+      films = await filmModel.getFilmList();
+
+      req.session.success = true;
+      req.session.message = 'Film deleted successfully';
+      res.render('film/index.ejs', films);
+
+    } catch (err) {
+      console.log(err.message)
+      req.session.success = false;
+      req.session.message = 'Failed to delete film. Error [' + err.message + ']';
+      res.redirect('back');
+    }
+}
 
 const create_season = async (req, res) => {
   series_id = req.params.film_id;
@@ -207,7 +221,7 @@ module.exports = {
   //     edit_film,
   //     update_film,
   //     delete_film,
-  //     destroy_film,
+  destroy_film,
   create_season,
   store_season,
   edit_season,

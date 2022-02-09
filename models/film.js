@@ -63,7 +63,9 @@ const getBasicFilmById = async (id) => {
 
 const updateFilm = async () => {};
 
-const deleteFilm = async () => {};
+const deleteFilm = async (filmId) => {
+  queryResult = await pool.query('SELECT * FROM delete_film($1)',[filmId])
+};
 
 const getGenres = async () => {
   queryResult = await pool.query('SELECT * FROM get_genres()');

@@ -10,7 +10,7 @@ router.post('/film/create', filmController.store_film);
 router.get('/film/:film_id', filmController.show_film);
 // router.get('/film/:id/edit', filmController.edit_film);
 // router.put('/film/:id', filmController.update_film);
-// router.delete('/film/:id', filmController.destroy_film)
+router.get('/film/delete/:film_id', filmController.destroy_film)
 
 router.get('/film/:film_id/season', filmController.create_season);
 router.post('/season/create', filmController.store_season);

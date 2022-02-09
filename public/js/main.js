@@ -16,6 +16,12 @@ function openRatingModal(filmId) {
     $('#ratingModal').addClass("fade").modal("show");
 }
 
+function openConfirmationModal(actionUrl, confirmationMessage) {
+    $('#confirmation-modal-form').attr('action', actionUrl);
+    $('#confirmation-message').html(confirmationMessage)
+    $("#confirmationModal").addClass("fade").modal("show");
+}
+
 // In your Javascript (external .js resource or <script> tag)
 $(document).ready(function() {
     $('.movie-genres-select').select2();

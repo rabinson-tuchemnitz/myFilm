@@ -26,7 +26,7 @@ BEGIN
     RETURN QUERY 
         SELECT films.film_id, CONCAT(films.title, ' (', EXTRACT(YEAR FROM DATE (films.release_date)) ,')')
         FROM films
-        WHERE film_type = 'movie' AND subordinated_to IS NULL;
+        WHERE film_type = 'movie' AND subordinated_to = 0;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -42,7 +42,7 @@ BEGIN
     RETURN QUERY 
         SELECT films.film_id, CONCAT(films.title, ' (', EXTRACT(YEAR FROM DATE (films.release_date)) ,')')
         FROM films
-        WHERE film_type = 'series' AND subordinated_to IS NULL;
+        WHERE film_type = 'series' AND subordinated_to = 0;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -309,21 +309,20 @@ LANGUAGE 'plpgsql';
 
 
 -----------------------------------
-
-
-CREATE OR REPLACE FUNCTION delete_film(film_id INT) 
+CREATE OR REPLACE FUNCTION delete_film(i_film_id INT) 
     RETURNS BOOL
 AS $$
 BEGIN
-    IF (film_id IS NULL) THEN
+    IF (i_film_id IS NULL) THEN
         RAISE EXCEPTION 'Validation Error: Id film is required';
         RETURN FALSE;
     ELSE
-        DELETE FROM films WHERE film_id = film_ioid;
+        DELETE FROM films WHERE films.film_id = i_film_id;
         RETURN TRUE;
     END IF;
 END;
 $$ LANGUAGE plpgsql;
+
 
 
 
