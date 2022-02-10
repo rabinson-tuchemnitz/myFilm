@@ -1,0 +1,70 @@
+<div class="container p-5">
+    <h1 class="h2">Edit Person</h1>
+    <br>
+    <div class="form-container col-8">
+        <form method="POST" action="/person/<%=person.id%>/edit">
+          <div class="row mb-3">
+            <div class="col-6">
+              <div class="form-outline">
+                <label class="form-label" for="name">Name</label>
+                <input type="text" class="form-control" name="name" placeholder="Enter full name" value="<%=person.name%>"/>
+              </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                  <label class="form-label" for="dob">Date of Birth</label>
+                  <input type="date" class="form-control" name="dob" placeholder="Date of Birth" value="<%=person.dob%>"/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                  <label class="form-label" for="country">Country of Origin</label>
+                  <input type="text" class="form-control" name="country" placeholder="Eg. Germany" value="<%=person.nationality%>"/>
+                </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <div class="form-outline">
+                <label class="form-label">Role</label>
+                <select class="form-control" style="height: 100%" name="role">
+                    <option selected >Select one</option>
+                    <option value="producer" <%- person.role =="producer" ? 'selected' : null %>>Producer</option>
+                    <option value="director"<%- person.role =="director" ? 'selected' : null %>>Director</option>
+                    <option value="actor"<%- person.role =="actor" ? 'selected' : null %>>Actor</option>
+                    <option value="actress"<%- person.role =="actress" ? 'selected' : null %>>Actress</option>
+                  </select>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-outline">
+                <label class="form-label">Gender</label>
+                <select class="form-control" style="height: 100%" name="gender">
+                    <option selected >Select one</option>
+                    <option value="male" <%- person.gender =="male" ? 'selected' : null %>>Male</option>
+                    <option value="female" <%- person.gender =="female" ? 'selected' : null %>>Female</option>
+                  </select>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <div class="form-group">
+                <label for="description">Description</label>
+                <textarea
+                  class="form-control"
+                  rows="4"
+                  name="description"
+                  placeholder="Enter some information"
+                ><%=person.description%></textarea>
+              </div>
+            </div>
+          </div>
+          <!-- Submit button -->
+          <button type="submit" class="btn btn-primary btn-block mb-4">
+            Save
+          </button>
+        </form>
+      </div>
+  </div>
+         

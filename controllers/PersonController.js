@@ -28,16 +28,36 @@ const store_person = async (req, res) => {
   }
 };
 
-const show_person = (req, res) => {
-  return 'show person';
+const show_person = async (req, res) => {
+    userId = req.params.person_id;
+    user = await personModel.getPersonById(userId);
 };
 
-const edit_person = (req, res) => {
-  return 'edit person';
+const edit_person = async (req, res) => {
+    userId = req.params.person_id;
+    person = await personModel.getPersonById(userId);
+    res.render('person/edit.ejs', {person});
 };
 
-const update_person = (req, res) => {
-  return 'update person';
+const update_person = async (req, res) => {
+    try {
+        userId = req.params.person_id;
+        const {name, dob, country, role, gender, description} = req.body;
+        await personModel.updatePerson(userId, name, dob, country, role, description, gender)
+
+        persons = await personModel.getPersonList();
+
+        req.session.success = true;
+        req.session.message = 'Person updated successfully';
+
+        res.redirect('/persons', {persons});
+
+    } catch (err) {
+        console.log(err.message)
+        req.session.success = false;
+        req.session.message = 'Failed to delete person. Error [' + err.message + ']';
+        res.redirect('back');
+    }
 };
 
 const destroy_person = async (req, res) => {
