@@ -30,7 +30,11 @@ const store_person = async (req, res) => {
 
 const show_person = async (req, res) => {
     userId = req.params.person_id;
-    user = await personModel.getPersonById(userId);
+    person = await personModel.getPersonById(userId);
+
+    console.log(person)
+
+    res.render('person/show.ejs', {person})
 };
 
 const edit_person = async (req, res) => {
@@ -45,12 +49,12 @@ const update_person = async (req, res) => {
         const {name, dob, country, role, gender, description} = req.body;
         await personModel.updatePerson(userId, name, dob, country, role, description, gender)
 
-        persons = await personModel.getPersonList();
+        person = await personModel.getPersonById(userId);
 
         req.session.success = true;
         req.session.message = 'Person updated successfully';
 
-        res.redirect('/persons', {persons});
+        res.redirect('/person/'+userId, {person});
 
     } catch (err) {
         console.log(err.message)

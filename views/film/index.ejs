@@ -22,7 +22,7 @@
           </p>
           <p>Persons:
             <% film.persons[0] != null && film.persons?.forEach(function (person) { %>
-              <a href="#"><%= person?.title %>,</a>
+              <a href="/person/<%= person?.id%>"><%= person?.title %>,</a>
             <% }); %>  
           </p>
         </div>
