@@ -20,6 +20,7 @@ const getPersonById = async (person_id) => {
 
 const storePerson  = async (name, dob, country, role, description, gender) => {
     console.log(name, dob, gender, country, role, description)
+    console.log('here')
     queryResult = await pool.query(
         `SELECT insert_person(name:=$1, dob:=$2, gender:=$3, nationality:=$4, role:=$5, description:=$6)`    
         ,[name, dob, gender, country, role, description]
