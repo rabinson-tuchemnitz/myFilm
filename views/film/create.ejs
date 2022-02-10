@@ -52,7 +52,7 @@
                           >Release Date</label
                         >
                         <input
-                          type="text"
+                          type="date"
                           class="form-control"
                           name="release_date"
                           placeholder="Eg. 2022-01-10"
@@ -162,24 +162,7 @@
                         <input type="text" class="form-control" name="name" placeholder="Enter movie name" />
                       </div>
                     </div>
-                    <div class="col-6">
-                      <div class="form-outline">
-                        <label class="form-label" for="subordinate_to"
-                          >Subordinated To</label
-                        >
-                        <select
-                          class="form-select"
-                          aria-label="Select subordinate(if any)"
-                          name="subordinated_to"
-                          id="subordinated_to"
-                        >
-                          <option value="0" selected>Select (if any)</option>
-                          <% films.forEach(function(film) { %>
-                            <option value="<%= film.id %>"> <%= film.title %></option>
-                          <% }); %> 
-                        </select>
-                      </div>
-                    </div>
+                    
                   </div>
                   <div class="row mb-3">
                     <div class="col-3">
@@ -188,7 +171,7 @@
                           >Release Date</label
                         >
                         <input
-                          type="text"
+                          type="date"
                           class="form-control"
                           name="release_date"
                           placeholder="Eg. 2022-01-10"

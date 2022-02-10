@@ -48,34 +48,52 @@ $$ LANGUAGE plpgsql;
 
 -->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-CREATE OR REPLACE FUNCTION insert_film_genres(film_id INT, genre_id_array INT[]) 
+
+CREATE OR REPLACE FUNCTION insert_film_genres(i_film_id INT, i_genre_id_array INT[]) 
     RETURNS BOOL 
 AS $$
     DECLARE
-    genre_id INT;
+    i_genre_id INT;
     BEGIN
-        IF((film_id IS NULL) OR (array_length(genre_id_array, 1) = 0)) THEN
+        IF((i_film_id IS NULL) OR (array_length(i_genre_id_array, 1) = 0)) THEN
             RETURN FALSE;
         ELSE
-            FOREACH genre_id IN ARRAY genre_id_array LOOP
-                INSERT INTO film_genres VALUES(film_id, genre_id);
+            FOREACH i_genre_id IN ARRAY i_genre_id_array LOOP
+-- 			    First check if the combination already exists or not
+				PERFORM  * FROM film_genres 
+				WHERE film_genres.film_id = i_film_id 
+				AND film_genres.genre_id = i_genre_id;
+				
+-- 				If the combination does not exists then insert the record
+				IF NOT FOUND THEN
+                	INSERT INTO film_genres VALUES(i_film_id, i_genre_id);
+				END IF;	
             END LOOP;
         RETURN TRUE;
         END IF;
     END;
 $$ LANGUAGE plpgsql;
 -------------------------------------------------------------------------------------------
-CREATE OR REPLACE FUNCTION insert_film_persons(film_id INT, person_id_array INT[]) 
+
+CREATE OR REPLACE FUNCTION insert_film_persons(i_film_id INT, i_person_id_array INT[]) 
     RETURNS BOOL 
 AS $$
     DECLARE
-    person_id INT;
+    i_person_id INT;
     BEGIN
-        IF((film_id IS NULL) OR (array_length(person_id_array, 1) = 0)) THEN
+        IF((i_film_id IS NULL) OR (array_length(i_person_id_array, 1) = 0)) THEN
             RETURN FALSE;
         ELSE
-            FOREACH person_id IN ARRAY person_id_array LOOP
-                INSERT INTO film_persons VALUES(film_id, person_id);
+            FOREACH i_person_id IN ARRAY i_person_id_array LOOP
+-- 			    First check if the combination already exists or not
+				PERFORM  * FROM film_persons 
+				WHERE film_persons.film_id = i_film_id 
+				AND film_persons.person_id = i_person_id;
+				
+-- 				If the combination does not exists then insert the record
+				IF NOT FOUND THEN
+                	INSERT INTO film_persons VALUES(i_film_id, i_person_id);
+				END IF;	
             END LOOP;
         RETURN TRUE;
         END IF;
@@ -93,7 +111,7 @@ CREATE OR REPLACE FUNCTION insert_film (
 	duration			TEXT DEFAULT NULL,
 	subordinated_to 	INT DEFAULT 0,
 	image_path 			VARCHAR(20) DEFAULT NULL,
-	description 		TEXT DEFAULT ""
+	description 		TEXT DEFAULT NULL
 ) 
     RETURNS INT
 AS $$
@@ -112,9 +130,9 @@ AS $$
         ELSE
 -- 			Insert new film in films table
             INSERT INTO films (title, release_date, film_type, production_country, minimum_age, 
-                subordinated_to, image_path, description) 
+                subordinated_to, image_path, description, duration) 
             VALUES (title, release_date, film_type, production_country, minimum_age, 
-                subordinated_to, image_path, description)
+                subordinated_to, image_path, description, duration)
 			RETURNING films.film_id INTO created_film_id;
 			
 -- 			Insert film_genres relation records
@@ -128,6 +146,88 @@ AS $$
 	END;
 $$ LANGUAGE plpgsql;
 -->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+CREATE OR REPLACE FUNCTION update_film(
+		i_film_id INT,
+		i_title VARCHAR DEFAULT NULL,
+		i_release_date DATE DEFAULT NULL,
+		i_subordinated_to INT DEFAULT NULL,
+		i_production_country VARCHAR DEFAULT NULL,
+		i_duration VARCHAR DEFAULT NULL,
+		i_min_age INT DEFAULT NULL,
+		i_image_path VARCHAR(20) DEFAULT NULL,
+		i_description TEXT DEFAULT NULL,
+		i_persons INT[] DEFAULT NULL,
+		i_genres INT[] DEFAULT NULL
+	)
+    RETURNS BOOL 
+AS $$
+	DECLARE
+		x INT;
+	BEGIN
+		IF (i_title IS NOT NULL) THEN
+			UPDATE films SET title = i_title WHERE films.film_id = i_film_id;
+			x=1;
+		END IF;
+
+		IF (i_release_date IS NOT NULL) THEN
+			UPDATE films SET release_date = i_release_date WHERE films.film_id = film_id;
+			x=1;
+		END IF;
+
+		IF (i_subordinated_to IS NOT NULL) THEN
+			UPDATE films SET subordinated_to = i_subordinated_to WHERE films.film_id = film_id;
+			x=1;
+		END IF;
+
+		IF (i_duration IS NOT NULL) THEN
+			UPDATE films SET duration = i_duration WHERE films.duration = film_id;
+			x=1;
+		END IF;
+
+		IF (i_production_country IS NOT NULL) THEN
+			UPDATE films SET production_country = i_production_country WHERE films.film_id = film_id;
+			x=1;
+		END IF;
+
+		IF (i_min_age IS NOT NULL) THEN
+			UPDATE films SET minimum_age = i_min_age WHERE films.film_id = film_id;
+			x=1;
+		END IF;
+
+		IF (i_image_path IS NOT NULL) THEN
+			UPDATE films SET image_path = i_image_path WHERE films.film_id = film_id;
+			x=1;
+		END IF;
+
+		IF (i_description IS NOT NULL) THEN
+			UPDATE films SET description = i_description WHERE films.film_id = film_id;
+			x=1;
+		END IF;
+		
+		IF (i_genres IS NOT NULL) THEN
+-- 			Insert film_genres relation records; If already exists then it will be updated
+			PERFORM insert_film_genres(i_film_id, i_genres);
+			x = 1;
+		END IF;
+
+		IF (i_persons IS NOT NULL) THEN
+-- 			Insert film_persons relation records; If already exists then it will be updated
+			PERFORM insert_film_persons(i_film_id, i_persons);
+			x = 1;
+		END IF;		
+
+		IF (x=1) THEN
+			RETURN True;
+		ELSE
+			RETURN False;
+		END IF;
+
+	END;
+$$ LANGUAGE plpgsql;
+
+-->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 CREATE OR REPLACE FUNCTION get_film_list()
 	RETURNS TABLE (
 		id INT, 
@@ -176,14 +276,17 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION get_film_by_id(i_id int)
 	RETURNS TABLE (
 		id INT, 
-		title TEXT,
+		title VARCHAR,
+		formatted_title TEXT,
         release_date VARCHAR,
+		formatted_release_date VARCHAR,
 		film_type VARCHAR,
 		min_age INT,
 		production_country VARCHAR,
 		duration VARCHAR,
 		description TEXT,
 		image_path VARCHAR,
+		subordinate_from JSONB,
 		subordinates JSONB,
 		genres JSONB, 
 		persons JSONB
@@ -192,13 +295,22 @@ AS $$
 	BEGIN
 		RETURN QUERY 
 			SELECT 
-				films.film_id, CONCAT(films.title, ' (', EXTRACT(YEAR FROM DATE(films.release_date)), ')'),
-				to_char(films.release_date,'DD MONTH YYYY')::VARCHAR as release_date,
+				films.film_id, films.title, CONCAT(films.title, ' (', EXTRACT(YEAR FROM DATE(films.release_date)), ')'),
+				films.release_date::VARCHAR, to_char(films.release_date,'DD MONTH YYYY')::VARCHAR as release_date,
 				films.film_type::VARCHAR, films.minimum_age, films.production_country, 
-				films.duration, films.description, films.image_path, 
+				films.duration, films.description, films.image_path, temp_self_films.subordinated_from,
 				temp_films.subordinates, temp_genres.genres, temp_persons.persons
 			FROM films 
-			
+-- 			join the film table with subordinated to film
+			LEFT JOIN (
+				SELECT films.film_id, jsonb_build_object(
+				'id', self_flims.film_id,
+				'title', CONCAT(self_flims.title, ' (', EXTRACT(YEAR FROM DATE(self_flims.release_date)), ')')
+				) subordinated_from
+				FROM films
+				JOIN films as self_flims ON films.subordinated_to = self_flims.film_id
+				WHERE films.film_id = i_id
+			) temp_self_films ON temp_self_films.film_id = films.film_id
 -- 			join the film table with the subordinates list
 			LEFT JOIN (
 				SELECT films.film_id, films.film_type, jsonb_agg(jsonb_build_object(

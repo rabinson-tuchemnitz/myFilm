@@ -24,13 +24,10 @@ const storeFilm = async (
 ) => {
   persons = persons.length == 1 ? '{' + persons + '}' : '{' + persons.join() + '}';
   genres = genres.length == 1 ? '{' + genres + '}' :'{' + genres.join() + '}';
- console.log( [
-  name, release_date, film_type, production_country, minimum_age, persons,
-  genres, subordinated_to, description, duration,
-])
+ 
   queryResult = await pool.query(
     `
-    SELECT insert_film(
+    SELECT * FROM insert_film(
       title:=$1, 
       release_date:=$2,
       film_type:=$3,
@@ -45,7 +42,7 @@ const storeFilm = async (
   `,
     [
       name, release_date, film_type, production_country, minimum_age, persons,
-      genres, subordinated_to, description, duration,
+      genres, subordinated_to, description, duration
     ]
   );
   return queryResult.rows[0].insert_film;
@@ -61,7 +58,32 @@ const getBasicFilmById = async (id) => {
   return queryResult.rows[0];
 }
 
-const updateFilm = async () => {};
+const updateFilm = async (
+    film_id,name, release_date, production_country, minimum_age,
+    persons, genres, subordinated_to, description, duration
+  ) => {
+  persons = persons.length == 1 ? '{' + persons + '}' : '{' + persons.join() + '}';
+  genres = genres.length == 1 ? '{' + genres + '}' :'{' + genres.join() + '}';
+    console.log(name, release_date, production_country, minimum_age, persons,
+      genres, subordinated_to, description, duration)
+  queryResult = await pool.query(
+    `SELECT * FROM update_film(
+      i_film_id:=$1,
+      i_title:=$2, 
+      i_release_date:=$3,
+      i_production_country:=$4, 
+      i_min_age:=$5, 
+      i_persons:=$6::int[],
+      i_genres:=$7::int[], 
+      i_subordinated_to:=$8, 
+      i_description:=$9,
+      i_duration:=$10
+    )`, [
+      film_id, name, release_date, production_country, minimum_age, persons,
+      genres, subordinated_to, description, duration
+    ]
+    )
+};
 
 const deleteFilm = async (filmId) => {
   queryResult = await pool.query('SELECT * FROM delete_film($1)',[filmId])

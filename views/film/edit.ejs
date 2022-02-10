@@ -1,0 +1,168 @@
+<div class="container-fluid">
+  <div class="row">
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <div class="container">
+          <h1 class="h2">Edit Film</h1>
+          <p>&nbsp;<span class="film-badge"><%= selectedFilm.film_type %></span></p>
+          <div class="form-container col-8">
+            <form method="POST" action="/film/<%= selectedFilm.id %>/edit">
+              <input name="film_type" value="<%= selectedFilm.film_type%>" hidden>
+              <div class="row mb-3">
+                <div class="col-6">
+                  <div class="form-outline">
+                    <label class="form-label" for="name">Name</label>
+                    <input type="text" class="form-control" name="name" placeholder="Enter movie name" value="<%= selectedFilm.title %>" />
+                  </div>
+                </div>
+                <% if (selectedFilm.film_type == "movie") {%>
+                  <div class="col-6">
+                    <div class="form-outline">
+                      <label class="form-label" for="movie_subordinate_to"
+                        >Subordinated To</label
+                      >
+                      <select
+                        class="form-select"
+                        aria-label="Select subordinate(if any)"
+                        name="subordinated_to"
+                      >
+                        <% films.forEach(function(film) { %>
+                          <option value="<%= film.id %>"<%- selectedFilm.subordinate_from?.id ? 'selected' : null %>> <%= film.title %></option>
+                        <% }); %> 
+                      </select>
+                    </div>
+                  </div>
+                <% } else if (selectedFilm.film_type == "season" || selectedFilm.film_type == "episode") { %>
+                  <div class="col-6">
+                    <div class="form-outline">
+                      <label class="form-label" for="subordinated_to"
+                        >Subordinated To</label
+                      >
+                      <input
+                        readonly
+                        disabled
+                        class="form-control"
+                        name="subordinated_to"
+                        value="<%= selectedFilm.subordinate_from?.title %>"
+                      />
+                    </div>
+                  </div>
+                <% } %>  
+              </div>
+              <div class="row mb-3">
+                <div class="col-3">
+                  <div class="form-outline">
+                    <label class="form-label" for="release_date"
+                      >Release Date</label
+                    >
+                    <input
+                      type="date"
+                      class="form-control"
+                      name="release_date"
+                      placeholder="Eg. 2022-01-10"
+                      value="<%= selectedFilm.release_date %>"
+                    />
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="form-outline">
+                    <label class="form-label" for="country"
+                      >Country of Origin</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="country"
+                      <%- (selectedFilm.film_type =="movie" || selectedFilm.film_type == "series") ? null :'readonly disabled' %>
+                      placeholder="Eg. Germany"
+                      value="<%= selectedFilm.production_country %>"
+                    />
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-outline">
+                    <label class="form-label" for="min_age">Minimum Age</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="min_age"
+                      placeholder="Eg. 13"
+                      value="<%= selectedFilm.min_age %>"
+                    />
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-outline">
+                    <label class="form-label" for="duration"
+                      >Film Duration</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="duration"
+                      placeholder="Eg. 2:40"
+                      value="<%= selectedFilm.duration %>"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-7">
+                  <div class="form-outline">
+                    <label class="form-label" for="crew"
+                      >Film Related Person</label
+                    >
+                    <select
+                      class="form-control movie-persons-select multiple"
+                      name="persons"
+                      id="movie_persons"
+                      multiple
+                    >
+                    <% persons.forEach(function(person) { %>
+                      <option value="<%= person.id %>" <%- selectedFilm.persons.includes(person.id) ? 'selected' : null %>> <%= person.name %></option>
+                    <% }); %> 
+                    </select>
+                  </div>
+                </div>
+                <div class="col-5">
+                  <div class="form-outline">
+                    <label class="form-label" for="genre">Genre</label>
+                    <select
+                      class="form-control movie-genres-select multiple"
+                      name="genres"
+                      id="movie_genres"
+                      multiple
+                    >
+                    <% genres.forEach(function(genre) { %>
+                      <option value="<%= genre.id %>"<%- selectedFilm.genres.includes(genre.id) ? 'selected' : null %>> <%= genre.name %></option>
+                    <% }); %> 
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea
+                      class="form-control"
+                      rows="6"
+                      name="description"
+                      placeholder="Enter description about the movie"
+                    ><%= selectedFilm.description %></textarea>
+                  </div>
+                </div>
+              </div>
+              <!-- Submit button -->
+              <button type="submit" class="btn btn-primary btn-block mb-4">
+                Save
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

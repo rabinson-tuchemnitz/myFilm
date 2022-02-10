@@ -22,9 +22,10 @@ const get_watched_history = async (req, res) => {
 const create_film = async (req, res) => {
   genres = await filmModel.getGenres();
   films = await filmModel.getNonSubOrdinateMovies();
+  series = await filmModel.getNonSubOrdinateSeries();
   persons = await personModel.getBasicPersonList();
 
-  res.render('film/create.ejs', { genres, films, persons });
+  res.render('film/create.ejs', { genres, films, series, persons });
 };
 
 const store_film = async (req, res) => {
@@ -76,18 +77,47 @@ const show_film = async (req, res) => {
   film = await filmModel.getFilmById(req.params.film_id)
   res.render('film/show.ejs', film);
 };
-// const edit_film = (req, res) => {
-//     return 'edit film';
-// }
-//
-// const update_film = (req, res) => {
-//     return 'update film';
-// }
-//
-// const delete_film = (req, res) => {
-//     return 'delete film';
-// }
-//
+
+const edit_film = async (req, res) => {
+    genres = await filmModel.getGenres();
+    films = await filmModel.getNonSubOrdinateMovies();
+
+    persons = await personModel.getBasicPersonList();
+    selectedFilm = await filmModel.getFilmById(req.params.film_id)
+    selectedFilm.genres = selectedFilm.genres.map(item => item.id);
+    selectedFilm.persons = selectedFilm.persons.map(item => item.id);
+
+    res.render('film/edit.ejs', {films, genres, persons, selectedFilm})
+}
+
+const update_film = async (req, res) => {
+    try {
+      const film_id = req.params.film_id;
+
+      filmData = await filmModel.getBasicFilmById(film_id);
+
+      var {name, release_date, min_age, duration, genres, persons, description } = req.body;
+     
+      if(filmData.film_type == "season" || filmData.flim_type == "episode") {
+        country = filmData.production_country;
+        subordinated_to = filmData.subordinated_to;
+      } else {
+        var {country, subordinated_to} = req.body;
+      }
+
+      await filmModel.updateFilm(film_id, name, release_date, country, min_age, persons,genres, subordinated_to, description, duration);
+      
+      req.session.success = true;
+      req.session.message = 'Film updated successfully';
+      res.redirect('back');
+  
+    } catch (err) {
+      req.session.success = false;
+      req.session.message = 'Failed to update film. Error [' + err.message + ']';
+      res.redirect('back');
+    }
+}
+
 const destroy_film = async (req, res) => {
     try {
       await filmModel.deleteFilm(req.params.film_id);
@@ -96,13 +126,13 @@ const destroy_film = async (req, res) => {
 
       req.session.success = true;
       req.session.message = 'Film deleted successfully';
-      res.render('film/index.ejs', films);
+      res.render('/film/index.ejs', films);
 
     } catch (err) {
       console.log(err.message)
       req.session.success = false;
       req.session.message = 'Failed to delete film. Error [' + err.message + ']';
-      res.redirect('back');
+      res.redirect('films');
     }
 }
 
@@ -137,14 +167,6 @@ const store_season = async (req, res) => {
   }
 };
 
-const edit_season = (req, res) => {
-  res.render('film/edit-season.ejs');
-};
-
-const update_season = (req, res) => {
-  res.redirect('/seasons/1');
-};
-
 const create_episode = async (req, res) => {
   season_id = req.params.season_id;
   genres = await filmModel.getGenres();
@@ -174,15 +196,6 @@ const store_episode = async (req, res) => {
     res.redirect('/film/'+season_id);
   }
 };
-
-const edit_episode = (req, res) => {
-  res.render('film/edit-episode.ejs');
-};
-
-const update_episode = (req, res) => {
-  res.redirect('/seasons/1');
-};
-
 
 const store_watch_film = async (req, res) => {
   try {
@@ -218,18 +231,13 @@ module.exports = {
   create_film,
   store_film,
   show_film,
-  //     edit_film,
-  //     update_film,
-  //     delete_film,
+  edit_film,
+  update_film,
   destroy_film,
   create_season,
   store_season,
-  edit_season,
-  update_season,
   create_episode,
   store_episode,
-  edit_episode,
-  update_episode,
   store_watch_film,
   store_film_rating
 };
