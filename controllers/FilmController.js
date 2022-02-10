@@ -15,6 +15,11 @@ const get_watched_history = async (req, res) => {
     res.render('film/history.ejs', films);
 };
 
+const get_recommended_films = async (req, res) => {
+  films = await filmModel.getRecommendedFilms(req.session.userId);
+  res.render('film/recommendation.ejs', {films})
+}
+
 const create_film = async (req, res) => {
   genres = await filmModel.getGenres();
   films = await filmModel.getNonSubOrdinateMovies();
@@ -224,6 +229,7 @@ const store_film_rating = async (req, res) => {
 module.exports = {
   get_film_list,
   get_watched_history,
+  get_recommended_films,
   create_film,
   store_film,
   show_film,

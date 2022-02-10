@@ -105,6 +105,11 @@ const getFilmWatchedHistory = async (userId) => {
   return queryResult.rows;
 };
 
+const getRecommendedFilms = async (userId) => {
+  queryResult = await pool.query('SELECT * FROM get_film_recommendations($1)',[userId]);
+  return queryResult.rows;
+}
+
 const storeFilmRating = async (filmId, userId, rating, review) => {
   queryResult = await pool.query(
     'SELECT * FROM insert_rating($1, $2, $3, $4)', [filmId, userId, rating, review]
@@ -124,5 +129,6 @@ module.exports = {
   getGenres,
   storeFilmWatchedByUser,
   getFilmWatchedHistory,
+  getRecommendedFilms,
   storeFilmRating,
 };

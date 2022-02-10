@@ -5,12 +5,13 @@ const router = express.Router();
 
 router.get('/films', filmController.get_film_list);
 router.get('/films/history', filmController.get_watched_history);
+router.get('/films/recommendation', filmController.get_recommended_films);
 router.get('/film/create', filmController.create_film);
 router.post('/film/create', filmController.store_film);
 router.get('/film/:film_id', filmController.show_film);
 router.get('/film/:film_id/edit', filmController.edit_film);
 router.post('/film/:film_id/edit', filmController.update_film);
-router.get('/film/:film_id/delete', filmController.destroy_film)
+router.get('/film/:film_id/delete', filmController.destroy_film);
 
 router.get('/film/:film_id/season', filmController.create_season);
 router.post('/season/create', filmController.store_season);

@@ -227,7 +227,6 @@ AS $$
 $$ LANGUAGE plpgsql;
 
 -->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
 CREATE OR REPLACE FUNCTION get_film_list()
 	RETURNS TABLE (
 		id INT, 
@@ -239,7 +238,8 @@ CREATE OR REPLACE FUNCTION get_film_list()
 		duration VARCHAR,
 		image_path VARCHAR,
 		genres JSONB, 
-		persons JSONB
+		persons JSONB,
+		rating NUMERIC
 	)
 AS $$
 	BEGIN
@@ -249,7 +249,7 @@ AS $$
 				to_char(films.release_date,'DD MONTH YYYY')::VARCHAR as release_date,
 				films.film_type::VARCHAR, films.minimum_age, films.production_country, 
 				films.duration, films.image_path, 
-				temp_genres.genres, temp_persons.persons
+				temp_genres.genres, temp_persons.persons, temp_ratings.rating
 			FROM films 
  			LEFT JOIN (
  				SELECT film_genres.film_id, jsonb_agg(jsonb_build_object(
@@ -269,10 +269,19 @@ AS $$
 				JOIN persons ON persons.person_id = film_persons.person_id
 				GROUP BY film_persons.film_id
 			) temp_persons ON temp_persons.film_id = films.film_id
+			
+			LEFT JOIN (
+				SELECT films.film_id, AVG(ratings.rating)::numeric(2,1) as rating
+				FROM films
+				RIGHT JOIN ratings on ratings.film_id = films.film_id
+				GROUP BY films.film_id
+			) temp_ratings ON temp_ratings.film_id = films.film_id
 			WHERE films.film_type in ('series', 'movie');
 	END;
 $$ LANGUAGE plpgsql;
-----------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------
+
 CREATE OR REPLACE FUNCTION get_film_by_id(i_id int)
 	RETURNS TABLE (
 		id INT, 
@@ -289,7 +298,9 @@ CREATE OR REPLACE FUNCTION get_film_by_id(i_id int)
 		subordinate_from JSONB,
 		subordinates JSONB,
 		genres JSONB, 
-		persons JSONB
+		persons JSONB,
+		ratings NUMERIC,
+		rating_count BIGINT
 	)
 AS $$
 	BEGIN
@@ -299,7 +310,7 @@ AS $$
 				films.release_date::VARCHAR, to_char(films.release_date,'DD MONTH YYYY')::VARCHAR as release_date,
 				films.film_type::VARCHAR, films.minimum_age, films.production_country, 
 				films.duration, films.description, films.image_path, temp_self_films.subordinated_from,
-				temp_films.subordinates, temp_genres.genres, temp_persons.persons
+				temp_films.subordinates, temp_genres.genres, temp_persons.persons, temp_ratings.rating, temp_ratings.rating_count
 			FROM films 
 -- 			join the film table with subordinated to film
 			LEFT JOIN (
@@ -345,10 +356,18 @@ AS $$
 				WHERE film_persons.film_id = i_id
 				GROUP BY film_persons.film_id
 			) temp_persons ON temp_persons.film_id = films.film_id
+-- 			join the ratings table for avg rating calculation
+			LEFT JOIN (
+				SELECT films.film_id, AVG(ratings.rating)::numeric(2,1) as rating, COUNT(ratings.rating) as rating_count
+				FROM films
+				RIGHT JOIN ratings on ratings.film_id = films.film_id
+				WHERE films.film_id = i_id
+				GROUP BY films.film_id
+			) temp_ratings ON temp_ratings.film_id = films.film_id
+			
 			WHERE films.film_id = i_id;
 	END;
 $$ LANGUAGE plpgsql;
-
 -------------------------------------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION get_basic_film_by_id(i_id INT)
 	RETURNS TABLE (
@@ -397,6 +416,61 @@ AS $$
 			) temp_users ON temp_users.film_id = films.film_id;
 	END;
 $$ LANGUAGE plpgsql
+
+-----------------------------------------------------------------------------------------------------
+create or replace function get_film_recommendations(inp_userId int) 
+	returns setof  jsonb  
+as $$
+	declare
+		a integer ARRAY[100];-- to store the number of films watched by the user of each genre
+		i int;
+		genreID int;-- to store the genre_id
+		b jsonb;
+		x int;
+		count1 int;
+		count_rating int;
+	begin
+		i=1;
+		select count(*) into count_rating from public.ratings where user_id = inp_userId;
+		if(count_rating>=1) then
+
+			select count(*) into count1 from public.genres;-- The number of genres.
+			for counter in 1..count1 loop
+				select CAST(count(*) AS INTEGER) into x from public.user_films INNER JOIN public.film_genres ON user_films.film_id = film_genres.film_id
+				where film_genres.genre_id = counter AND user_films.user_id = inp_userID; 
+				a[i]=x;
+				i=i+1;
+
+			end loop;-- Finnding the total number of films user have watched of each genres.
+
+			select max(m) into x from unnest(a) m;
+			for counter in 1..count1 loop
+				if(a[counter]=x) then
+				genreID = counter;
+				exit;
+				end if;
+			end loop; -- Finding the genreID of the films user have watched most of. 
+
+			for b in
+			select distinct
+			jsonb_build_object(
+				'id', films.film_id,
+				'title', CONCAT(films.title, ' (', EXTRACT(YEAR FROM DATE(films.release_date)), ')'),
+				'film_type', films.film_type
+			) as temp
+			from public.films INNER JOIN public.film_genres ON films.film_id =film_genres.film_id
+			where film_genres.genre_id = genreID AND film_genres.film_id NOT IN (select film_id from public.user_films where user_id = inp_userId)
+
+			loop
+				return next b;
+
+
+			end loop;
+		end if;
+
+	end;
+$$ language plpgsql;
+
 ----------------------------- FUNCTIONS END -----------------------------------------
 
 

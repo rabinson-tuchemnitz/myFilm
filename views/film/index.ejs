@@ -12,7 +12,7 @@
         <img src="img/movies/mv1.jpg" alt="Film">
         <div class="mv-item-infor">
           <h6><a href="film/<%= film.id %>"><%= film.title %></a></h6>
-          <p class="rate"> <span class="film-badge"><%= film.film_type %></span> &nbsp;<i class="ion-android-star"></i><span>8.1</span> /10</p>
+          <p class="rate"> <span class="film-badge"><%= film.film_type %></span> &nbsp;<i class="ion-android-star"></i><span><%= film.rating??0.0 %></span> /10 (<%= film.rating_count??0 %>)</p>
           <hr/>
           <p class="run-time"> Run Time: <%= film.duration%>    <span>Minimum-Age: <%= film.min_age%> years</span>    <span>Release: <%= film.release_date%></span></p>
           <p>Genres: 
