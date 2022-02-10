@@ -127,13 +127,13 @@ const destroy_film = async (req, res) => {
 
       req.session.success = true;
       req.session.message = 'Film deleted successfully';
-      res.render('/film/index.ejs', films);
+      res.redirect('/films')
 
     } catch (err) {
       console.log(err.message)
       req.session.success = false;
       req.session.message = 'Failed to delete film. Error [' + err.message + ']';
-      res.redirect('films');
+      res.redirect('/films');
     }
 }
 

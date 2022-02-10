@@ -141,7 +141,7 @@ AS $$
 -- 			Insert film_persons relation records
 			PERFORM insert_film_persons(created_film_id, persons);
             
-            RETURN create_film_id;
+            RETURN created_film_id;
         END IF;
 	END;
 $$ LANGUAGE plpgsql;
@@ -181,7 +181,7 @@ AS $$
 		END IF;
 
 		IF (i_duration IS NOT NULL) THEN
-			UPDATE films SET duration = i_duration WHERE films.duration = film_id;
+			UPDATE films SET duration = i_duration WHERE films.film_id = film_id;
 			x=1;
 		END IF;
 
@@ -415,7 +415,7 @@ AS $$
 				WHERE user_films.user_id = i_user_id
 			) temp_users ON temp_users.film_id = films.film_id;
 	END;
-$$ LANGUAGE plpgsql
+$$ LANGUAGE plpgsql;
 
 -----------------------------------------------------------------------------------------------------
 create or replace function get_film_recommendations(inp_userId int) 
@@ -471,55 +471,6 @@ as $$
 	end;
 $$ language plpgsql;
 
------------------------------ FUNCTIONS END -----------------------------------------
-
-
-CREATE OR REPLACE FUNCTION get_film (p_pattern VARCHAR) 
-    RETURNS TABLE (
-        film_title VARCHAR,
-        film_release_year INT
-) 
-AS $$
-BEGIN
-    RETURN QUERY SELECT
-        title,
-        cast( release_year as integer)
-    FROM
-        films
-    WHERE
-        title ILIKE p_pattern ;
-END; $$ 
-
-LANGUAGE 'plpgsql';
-
-
-----------------
-
-CREATE OR REPLACE FUNCTION get_film (i_pattern TEXT, i_year INT) 
-    RETURNS TABLE (
-        o_title 			VARCHAR,
-		o_description     	TEXT
-        o_release_year  	INT
-) AS $$
-DECLARE 
-    var_r record;
-BEGIN
-    FOR var_r IN(SELECT 
-                title, 
-				description,
-                YEAR(CAST(release_date as DATE) AS release_year 
-                FROM films 
-                WHERE title ILIKE p_pattern AND 
-                release_year = p_year)  
-    LOOP
-        o_title 		:= upper(var_r.title) ; 
-        o_release_year 	:= var_r.release_year;
-        RETURN NEXT;
-    END LOOP;
-END; $$ 
-LANGUAGE 'plpgsql';
-
-
 -----------------------------------
 CREATE OR REPLACE FUNCTION delete_film(i_film_id INT) 
     RETURNS BOOL
@@ -553,4 +504,4 @@ AFTER DELETE ON films
 FOR EACH ROW EXECUTE PROCEDURE delete_subordinated_films();
 
 
---------------------------------------------------------------------------------
+----------------------------- FUNCTIONS END -----------------------------------------

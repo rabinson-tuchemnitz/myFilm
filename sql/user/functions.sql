@@ -1,5 +1,5 @@
 
-CREATE OR REPLACE FUNCTION add_user(i_name TEXT, i_email TEXT, i_pass TEXT, i_type user_type)
+CREATE OR REPLACE FUNCTION insert_user(i_name TEXT, i_email TEXT, i_pass TEXT, i_type user_type)
 RETURNS VOID
 AS $$
 BEGIN 
@@ -7,22 +7,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
----------------------------------------------------------------------------------------------
-
-CREATE OR REPLACE FUNCTION login(i_email TEXT, i_pass TEXT) 
-RETURNS BOOL
-AS $$
-BEGIN
-	IF EXISTS (
-		SELECT * FROM users 
-		WHERE users.email = i_email AND users.password = i_pass
-	) THEN 
-		RETURN TRUE;
- 	ELSE 
- 		RETURN FALSE;
-	END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 -----------------------------------------------------
 CREATE OR REPLACE FUNCTION get_user_from_credentials(i_email text,i_pass text)
@@ -54,7 +38,7 @@ $$ LANGUAGE plpgsql;
 
 
 -------------------------------------------------------------------------
-CREATE OR REPLACE FUNCTION update_user_by_id (i_id integer, i_name varchar default null, i_description text default null)
+CREATE OR REPLACE FUNCTION update_user (i_id integer, i_name varchar default null, i_description text default null)
 RETURNS VOID 
 AS $$
 	BEGIN

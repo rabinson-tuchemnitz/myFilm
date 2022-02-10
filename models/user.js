@@ -1,7 +1,7 @@
 const pool = require('../db');
 
 const storeUser = async (name, email, password, user_role) => {
-  await pool.query('SELECT add_user($1, $2, $3, $4)', [
+  await pool.query('SELECT insert_user($1, $2, $3, $4)', [
     name,
     email,
     password,
@@ -25,7 +25,7 @@ const getUserData = async (id) => {
 
 const updateUser = async (id, name, description) => {
   await pool.query(
-    'select update_user_by_id(i_id:=$1, i_name:=$2, i_description:= $3)',
+    'select update_user(i_id:=$1, i_name:=$2, i_description:= $3)',
     [id, name, description]
   );
 };

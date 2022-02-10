@@ -14,17 +14,15 @@ const store_person = async (req, res) => {
     const {name, dob, country, role, description, gender } = req.body;
     await personModel.storePerson(name, dob, country, role, description, gender);
 
-    persons = await personModel.getPersonList();
-
     req.session.success = true;
     req.session.message = 'Person created successfully';
 
-    res.redirect('/persons', {persons});
+    res.redirect('/persons');
   } catch (err) {
     console.log(err.message)
     req.session.success = false;
     req.session.message = 'Failed to delete person. Error [' + err.message + ']';
-    res.redirect('back');
+    res.redirect('/persons');
   }
 };
 
@@ -49,18 +47,16 @@ const update_person = async (req, res) => {
         const {name, dob, country, role, gender, description} = req.body;
         await personModel.updatePerson(userId, name, dob, country, role, description, gender)
 
-        person = await personModel.getPersonById(userId);
-
         req.session.success = true;
         req.session.message = 'Person updated successfully';
 
-        res.redirect('/person/'+userId, {person});
+        res.redirect('/persons');
 
     } catch (err) {
         console.log(err.message)
         req.session.success = false;
         req.session.message = 'Failed to delete person. Error [' + err.message + ']';
-        res.redirect('back');
+        res.redirect('/persons');
     }
 };
 
@@ -68,18 +64,16 @@ const destroy_person = async (req, res) => {
   try {
     await personModel.deletePerson(req.params.person_id);
 
-    persons = await personModel.getPersonList();
-
     req.session.success = true;
     req.session.message = 'Person deleted successfully';
-    res.redirect('/persons', {persons});
+    res.redirect('/persons');
   } catch (err) {
     console.log(err.message);
     req.session.success = false;
     req.session.message =
       'Failed to delete person. Error [' + err.message + ']';
-    res.redirect('back');
-  }
+      res.redirect('/persons');
+    }
 };
 
 module.exports = {

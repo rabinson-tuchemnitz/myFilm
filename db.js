@@ -5,7 +5,7 @@ const pool = new Pool({
     password: "root",
     host: "localhost",
     port: 5432,
-    database: "newFilmDB"
+    database: "myFilmDB"
 });
 
 module.exports = pool;
