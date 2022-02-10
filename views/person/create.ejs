@@ -13,7 +13,7 @@
           <div class="col">
               <div class="form-outline">
                 <label class="form-label" for="dob">Date of Birth</label>
-                <input type="text" class="form-control" name="dob" placeholder="Date of Birth" />
+                <input type="date" class="form-control" name="dob" placeholder="Date of Birth" />
               </div>
           </div>
           <div class="col">
@@ -24,20 +24,25 @@
           </div>
         </div>
         <div class="row mb-3">
-          <div class="col" >
-              <div class="form-outline">
-                  <label for="formFile" class="form-label">Profile <Picture></Picture></label>
-                  <input class="form-control" type="file" id="formFile">
-                </div>
-          </div>  
           <div class="col">
             <div class="form-outline">
-              <label class="form-label" for="role">Role</label>
-              <select class="form-control person-role-select multiple" style="height: 100%" name="role" id="person_role">
-                  <option>Producer</option>
-                  <option>Director</option>
-                  <option>Actor</option>
-                  <option>Actress</option>
+              <label class="form-label">Role</label>
+              <select class="form-control" style="height: 100%" name="role">
+                  <option selected >Select one</option>
+                  <option value="producer">Producer</option>
+                  <option value="director">Director</option>
+                  <option value="actor">Actor</option>
+                  <option value="actress">Actress</option>
+                </select>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-outline">
+              <label class="form-label">Gender</label>
+              <select class="form-control" style="height: 100%" name="gender">
+                  <option selected >Select one</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
                 </select>
             </div>
           </div>

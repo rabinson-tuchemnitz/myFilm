@@ -9,11 +9,10 @@ CREATE TABLE IF NOT EXISTS persons(
     dob		            DATE NOT NULL,
 	role 				PERSON_ROLE_TYPE NOT NULL,
 	nationality 	    VARCHAR(30) NOT NULL,
+	image_path 				VARCHAR(50),
     description 		TEXT,
-	height				INTEGER,
     created_at 	        TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
-	CONSTRAINT positive_height CHECK (height > 0),
     CONSTRAINT valid_dob CHECK (dob < current_date)
 );
 

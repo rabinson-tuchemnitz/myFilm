@@ -1,62 +1,55 @@
 <div class="container p-5">
     <div class="d-flex justify-content-between align-items-center">
-      <h1 class="h2"><%= title %></h1>
+      <h1 class="h2">Persons</h1>
       <% if(typeof loggedIn != 'undefined' && loggedIn && userType == "admin"){ %>
         <a href="/person" class="btn btn-primary">Add Person</a>
       <% } %>      
     </div>
     <br>
     <div class="col-md-8 col-sm-12 col-xs-12">
-    <div class="col-md-12">
-      <div class="ceb-item-style-2">
-        <img src="img/crews/cw1.jpg" alt="">
-        <div class="ceb-infor">
-          <h2><a href="celebritysingle.html">Dan Stevens</a></h2>
-          <span>actor, usa</span>
-          <p>Dan Stevens was born at Croydon in Surrey on 10th October 1982. His parents are teachers. He was educated at Tonbridge School and trained in acting at the National Youth Theatre of Great Britain... </p>
+      <% persons.forEach(function(person) { %>
+        <div class="col-md-12">
+          <div class="ceb-item-style-2">
+            <img src="img/crews/cw1.jpg" alt="">
+            <div class="ceb-infor">
+              <div class="d-flex justify-content-between align-items-center">
+                <h2><a href="celebritysingle.html"><%= person.name %></a></h2>
+              <div class="action-group">
+                <a class="btn btn-outline-secondary" href="/person/<%=person.id%>/edit">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-pencil-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"
+                    />
+                  </svg>
+                </a>
+                <button class="btn btn-outline-danger" onclick="openConfirmationModal('/person/<%=person.id%>/delete', 'You\'re about to delete <%=person.name%>')">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-trash-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
+                    />
+                  </svg>
+                </button>
+              </div>
+              </div>
+              <span><%= person.role%> &nbsp; <%= person.country %></span>
+            </div>
+          </div>
         </div>
-      </div>
+      <% }) %>  
     </div>
-    <div class="col-md-12">
-      <div class="ceb-item-style-2">
-        <img src="img/crews/cw2.jpg" alt="">
-        <div class="ceb-infor">
-          <h2><a href="celebritysingle.html">Luke Evans</a></h2>
-          <span>actor, mexico</span>
-          <p>Luke George Evans was born in Pontypool, Wales, and grew up in Aberbargoed, in the south of Wales. He is the son of Yvonne (Lewis) and David Evans. He moved to Cardiff at the age 17...</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-12">
-      <div class="ceb-item-style-2">
-        <img src="img/crews/cw3.jpg" alt="">
-        <div class="ceb-infor">
-          <h2><a href="celebritysingle.html">Scarlett Johansson</a></h2>
-          <span>actress, france</span>
-          <p>Scarlett Ingrid Johansson was born in New York City. Her mother, Melanie Sloan, is from a Jewish family from the Bronx, and her father, Karsten Johansson, is a Danish-born architect, from Copenhagen...</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-12">
-      <div class="ceb-item-style-2">
-        <img src="img/crews/cw4.jpg" alt="">
-        <div class="ceb-infor">
-          <h2><a href="celebritysingle.html">Emma Watson</a></h2>
-          <span>actress, uk</span>
-          <p>Emma Charlotte Duerre Watson was born in Paris, France, to English parents, Jacqueline Luesby and Chris Watson, both lawyers. She moved to Oxfordshire when she was five...</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-12">
-      <div class="ceb-item-style-2">
-        <img src="img/crews/cw5.jpg" alt="">
-        <div class="ceb-infor">
-          <h2><a href="celebritysingle.html">Tom Hardy</a></h2>
-          <span>actor, italy	</span>
-          <p>Joan Crawford was born Lucille Fay LeSueur on March 23, 1905, in San Antonio, Texas, to Anna Belle (Johnson) and Thomas E. LeSueur, a laundry laborer. By the time she was born her parents had separated....</p>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
   

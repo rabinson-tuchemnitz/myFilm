@@ -6,9 +6,9 @@ const router = express.Router();
 router.get('/persons', personController.get_person_list);
 router.get('/person', personController.create_person);
 router.post('/person', personController.store_person);
-// router.get('/person/:id', personController.show_crew);
-// router.get('/person/:id/edit', personController.edit_crew);
-// router.put('/person/:id', personController.update_crew);
-// router.delete('/person/:id', personController.destroy_crew)
+router.get('/person/:person_id', personController.show_person);
+router.get('/person/:person_id/edit', personController.edit_person);
+router.post('/person/:person_id/edit', personController.update_person);
+router.get('/person/:person_id/delete', personController.destroy_person)
 
 module.exports = router;
