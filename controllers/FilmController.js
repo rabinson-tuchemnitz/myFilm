@@ -11,12 +11,8 @@ const get_film_list = async (req, res) => {
 };
 
 const get_watched_history = async (req, res) => {
-  try {
     films = await filmModel.getFilmWatchedHistory(req.session.userId);
-
     res.render('film/history.ejs', films);
-  } catch (err) {}
-  res.render('film/history.ejs');
 };
 
 const create_film = async (req, res) => {

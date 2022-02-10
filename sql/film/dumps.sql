@@ -12,14 +12,55 @@ VALUES  ('Action'),
 		('Sci-Fi'),
 		('Thriller');
 
+		
 SELECT insert_film(
-	title:='New Movie', 
+	title:='Movie 1', 
+	release_date:='2022-02-01',
+	film_type:='movie',
+	production_country:='Germany', 
+	minimum_age:=21, 
+	persons:= ARRAY [6,7,9],
+	genres:= ARRAY [4,5],
+	duration:= '02:30:00',
+	description:= 'The movie is a fantastic movie based on real story.'
+)
+
+SELECT insert_film(
+	title:='Movie 2', 
 	release_date:='2021-01-01',
 	film_type:='movie',
-	production_country:='Nepal', 
-	minimum_age:=18, 
-	persons:= ARRAY [1,3,4],
-	genres:= ARRAY [1,3]
+	production_country:='Germany', 
+	minimum_age:=21, 
+	persons:= ARRAY [6,7,9],
+	genres:= ARRAY [1,3],
+	duration:= '02:12:00',
+	description:= 'The movie is a fantastic movie based on real story.'
+)
+
+
+SELECT insert_film(
+	title:='Movie 2', 
+	release_date:='2021-01-01',
+	film_type:='movie',
+	production_country:='Germany', 
+	minimum_age:=21, 
+	persons:= ARRAY [6,7,9],
+	genres:= ARRAY [1,3],
+	duration:= '02:12:00',
+	description:= 'The movie is a fantastic movie based on real story.'
+)
+
+
+SELECT insert_film(
+	title:='Movie 2', 
+	release_date:='2021-01-01',
+	film_type:='movie',
+	production_country:='Germany', 
+	minimum_age:=21, 
+	persons:= ARRAY [6,7,9],
+	genres:= ARRAY [1,3],
+	duration:= '02:12:00',
+	description:= 'The movie is a fantastic movie based on real story.'
 )
 
 

@@ -371,6 +371,32 @@ AS $$
 			WHERE films.film_id = i_id;
 	END;
 $$ LANGUAGE plpgsql;
+
+-----------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION get_film_history(i_user_id INT)
+	RETURNS TABLE (
+		id INT, 
+		title TEXT,
+        release_date VARCHAR,
+		film_type VARCHAR,
+		production_country VARCHAR,
+		image_path VARCHAR
+	)
+AS $$
+	BEGIN
+		RETURN QUERY 
+			SELECT 
+				films.film_id, CONCAT(films.title, ' (', EXTRACT(YEAR FROM DATE(films.release_date)), ')'),
+				to_char(films.release_date,'DD MONTH YYYY')::VARCHAR as release_date,
+				films.film_type::VARCHAR, films.production_country, films.image_path 
+			FROM films 
+			RIGHT JOIN (
+				SELECT user_films.film_id 
+				FROM user_films
+				WHERE user_films.user_id = i_user_id
+			) temp_users ON temp_users.film_id = films.film_id;
+	END;
+$$ LANGUAGE plpgsql
 ----------------------------- FUNCTIONS END -----------------------------------------
 
 

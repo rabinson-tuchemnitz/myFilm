@@ -100,8 +100,9 @@ const storeFilmWatchedByUser = async (filmId, userId) => {
   return queryResult.rows;
 };
 
-const getFilmWatchedHistory = async () => {
-  
+const getFilmWatchedHistory = async (userId) => {
+  queryResult = await pool.query('SELECT * FROM get_film_history($1)',[userId]);
+  return queryResult.rows;
 };
 
 const storeFilmRating = async (filmId, userId, rating, review) => {
