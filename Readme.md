@@ -1,7 +1,7 @@
 # myFilm
 
 myFilm is a platform to manage the films, users, crews (film related users), film ratings, etc.
-It based on the postgreSQL taught on the course named: Advanced Management of Data provided by the Deparment of Computer Science, Technical University of Chemnitz. The technologies used in the project are: PostgreSQL, nodejs, bootstrap.
+The technologies used in the project are: PostgreSQL, nodejs, bootstrap.
 
 ## Installation Guide
 
